@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.mmin18.widget.FlexLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/task_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="Task Name"
+        android:textColor="@color/textPrimary"
+        app:layout_width="parent.width - btn_task_action.width" />
+
+    <ProgressBar
+        android:id="@+id/task_progress_bar"
+        style="?android:progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50"
+        app:layout_top="prev.bottom"
+        app:layout_width="parent.width - next.width" />
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/btn_task_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@mipmap/ic_pause_white"
+        app:layout_bottom="task_progress_bar.bottom"
+        app:layout_left="prev.right"
+        app:layout_top="task_name.top" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/task_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="Task Status"
+        android:textColor="@color/textSecondary"
+        android:textSize="12sp"
+        app:layout_right="prev.right"
+        app:layout_top="prev.bottom" />
+</com.github.mmin18.widget.FlexLayout>

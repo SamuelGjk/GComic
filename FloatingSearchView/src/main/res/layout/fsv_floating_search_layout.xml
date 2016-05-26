@@ -1,0 +1,37 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/fsv.search.container"
+        layout="@layout/fsv_search_query_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:transitionName="@string/fsv.transition.search.layout"
+        tools:ignore="UnusedAttribute" />
+
+    <FrameLayout
+        android:id="@+id/fsv.suggestions.container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/fsv.search.container"
+        android:layout_alignStart="@id/fsv.search.container"
+        android:layout_below="@id/fsv.search.container">
+
+        <view
+            android:id="@+id/fsv.suggestions.list"
+            class="com.mypopsy.widget.FloatingSearchView$RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layoutManager="LinearLayoutManager" />
+
+        <View
+            android:id="@+id/fsv.suggestions.divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:visibility="invisible" />
+    </FrameLayout>
+</merge>

@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.WithDrawer" />
+
+    <style name="AppTheme.NoActionBar.TransparentStatusBar" parent="AppTheme.NoActionBar" />
+
+    <style name="AppTheme.NoActionBar.FullScreen" parent="AppTheme.NoActionBar.TransparentStatusBar" />
+
+    <style name="TagGroup.GComic" parent="TagGroup.Beauty_Red.Inverse">
+        <item name="atg_borderColor">@color/colorPrimary</item>
+        <item name="atg_backgroundColor">@color/colorPrimary</item>
+        <item name="atg_pressedBackgroundColor">@color/colorPrimary</item>
+    </style>
+
+</resources>

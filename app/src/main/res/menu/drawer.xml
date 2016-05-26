@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_favorite"
+        android:icon="@mipmap/ic_favorite_white"
+        android:title="@string/favorite" />
+
+    <item
+        android:id="@+id/navigation_download"
+        android:icon="@mipmap/ic_cloud_download_white"
+        android:title="@string/download" />
+</menu>

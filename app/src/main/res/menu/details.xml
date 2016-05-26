@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_favorite"
+        android:icon="@mipmap/ic_favorite_border_white"
+        android:title="@string/favorite"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_download"
+        android:icon="@mipmap/ic_cloud_download_white"
+        android:title="@string/download"
+        app:showAsAction="ifRoom" />
+</menu>

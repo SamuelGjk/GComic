@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="search_view_inset">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="status_bar_height">25dp</dimen>
+</resources>

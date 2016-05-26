@@ -1,0 +1,11 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+
+/app/src/main/java/moe/yukinoneko/gcomic/network/GComicApi.java
+
+/.idea
+*.apk
