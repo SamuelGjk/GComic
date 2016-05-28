@@ -73,6 +73,8 @@ public class ComicData {
             public long filesize;
             @Json(name = "chapter_order") public int chapterOrder;
 
+            public boolean isDownloaded;
+
             public ChapterBean() {
 
             }

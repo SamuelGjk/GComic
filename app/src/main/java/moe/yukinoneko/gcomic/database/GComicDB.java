@@ -165,6 +165,15 @@ public class GComicDB {
         }).subscribeOn(Schedulers.io());
     }
 
+    public <T> Observable<Integer> deleteAll(final List<T> list) {
+        return Observable.defer(new Func0<Observable<Integer>>() {
+            @Override
+            public Observable<Integer> call() {
+                return Observable.just(liteOrm.delete(list));
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
     /**
      * 删除所有
      */

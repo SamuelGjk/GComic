@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
 import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
@@ -140,9 +141,23 @@ public class DownloadTasksManager {
         return GComicDB.getInstance(context).insert(model);
     }
 
+    public Observable<Integer> addTasks(final List<DownloadTaskModel> models) {
+
+        for (DownloadTaskModel model : models) {
+            model.path = generatePath(model.url);
+            model.id = FileDownloadUtils.generateId(model.url, model.path);
+        }
+
+        return GComicDB.getInstance(context).insertAll(models);
+    }
+
     public void startTask(final DownloadTaskModel model) {
+        if (!isReady()) {
+            return;
+        }
+
         int status = getStatus(model.id);
-        if (!(status == FileDownloadStatus.paused || status == FileDownloadStatus.error)) {
+        if (!(status == FileDownloadStatus.paused || status == FileDownloadStatus.error || status == FileDownloadStatus.INVALID_STATUS)) {
             return;
         }
 
@@ -154,6 +169,31 @@ public class DownloadTasksManager {
                                               .setListener(taskDownloadListener);
         addTaskForViewHolder(task);
         task.start();
+    }
+
+    public void startTasks(final List<DownloadTaskModel> models) {
+        if (!isReady()) {
+            return;
+        }
+
+        final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(taskDownloadListener);
+
+        final List<BaseDownloadTask> tasks = new ArrayList<>();
+        for (DownloadTaskModel model : models) {
+            int status = getStatus(model.id);
+            if (!(status == FileDownloadStatus.paused || status == FileDownloadStatus.error || status == FileDownloadStatus.INVALID_STATUS)) {
+                continue;
+            }
+            tasks.add(FileDownloader.getImpl().create(model.url).setPath(model.path).addHeader("Referer", GComicApi.REFERER));
+        }
+
+        queueSet.setCallbackProgressTimes(100);
+
+        for (BaseDownloadTask task : tasks) {
+            addTaskForViewHolder(task);
+        }
+
+        queueSet.downloadTogether(tasks).start();
     }
 
     public void pauseTask(int downloadId) {

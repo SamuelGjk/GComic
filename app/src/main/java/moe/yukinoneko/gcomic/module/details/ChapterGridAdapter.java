@@ -40,12 +40,14 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (mDownloadedChapters.contains(mData.get(position).chapterId)) {
+        ComicData.ChaptersBean.ChapterBean chapter = mData.get(position);
+        if (chapter.isDownloaded || mDownloadedChapters.contains(chapter.chapterId)) {
+            chapter.isDownloaded = true;
             holder.itemView.setBackgroundResource(R.color.colorPrimary);
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
         }
 
-        ((AppCompatTextView) holder.itemView).setText(mData.get(position).chapterTitle);
+        ((AppCompatTextView) holder.itemView).setText(chapter.chapterTitle);
     }
 
     @Override

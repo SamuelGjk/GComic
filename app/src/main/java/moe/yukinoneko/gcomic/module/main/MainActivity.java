@@ -141,6 +141,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
                 mSearchView.setTranslationY(verticalOffset);
             }
         });
+
+        DownloadTasksManager.getInstance(this).bindService();
     }
 
     @Override

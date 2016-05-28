@@ -9,7 +9,6 @@ import butterknife.BindView;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.ToolBarActivity;
 import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
-import moe.yukinoneko.gcomic.download.DownloadTasksManager;
 
 /**
  * Created by SamuelGjk on 2016/5/13.
@@ -32,8 +31,6 @@ public class DownloadedComicActivity extends ToolBarActivity<DownloadedComicPres
 
     @Override
     public void init() {
-        DownloadTasksManager.getInstance(this).bindService();
-
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         downloadedComicGrid.setLayoutManager(layoutManager);
         downloadedComicGrid.setHasFixedSize(true);

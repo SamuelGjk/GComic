@@ -1,6 +1,7 @@
 package moe.yukinoneko.gcomic.utils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,43 +17,6 @@ import rx.schedulers.Schedulers;
  * Created by SamuelGjk on 2016/5/19.
  */
 public class FileUtlis {
-//    public static Observable<List<byte[]>> readFileContent(final String path) {
-//        return Observable.defer(new Func0<Observable<List<byte[]>>>() {
-//            @Override
-//            public Observable<List<byte[]>> call() {
-//                List<byte[]> result = new ArrayList<>();
-//                try {
-//                    ZipFile zf = new ZipFile(path);
-//                    InputStream is = new BufferedInputStream(new FileInputStream(path));
-//                    ZipInputStream zis = new ZipInputStream(is);
-//                    ZipEntry ze;
-//                    while ((ze = zis.getNextEntry()) != null) {
-//                        long size = ze.getSize();
-//                        if (size > 0) {
-//                            InputStream zeis = zf.getInputStream(ze);
-//                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//                            byte[] buffer = new byte[1024];
-//                            int len;
-//                            while ((len = zeis.read(buffer, 0, buffer.length)) != -1) {
-//                                bos.write(buffer, 0, len);
-//                            }
-//                            result.add(bos.toByteArray());
-//                            bos.close();
-//                            zeis.close();
-//                        }
-//                    }
-//                    zis.closeEntry();
-//                    zis.close();
-//                    is.close();
-//                    zf.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                return Observable.just(result);
-//            }
-//        }).subscribeOn(Schedulers.io());
-//    }
-
     public static final String FILE_SUFFIX = ".jpg";
 
     public static Observable<List<byte[]>> readFileContent(final String path) {
@@ -86,5 +50,14 @@ public class FileUtlis {
                 return Observable.just(result);
             }
         }).subscribeOn(Schedulers.io());
+    }
+
+    public static void deleteFiles(List<String> paths) {
+        for (String path : paths) {
+            File file = new File(path);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
     }
 }

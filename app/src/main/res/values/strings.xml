@@ -30,8 +30,13 @@
     <string name="start">开始</string>
     <string name="pause_all">全部暂停</string>
     <string name="start_all">全部开始</string>
+
+    <string name="download_all">全部下载</string>
     
     <string name="download_tasks_label">下载 - %1$s</string>
+
+    <string name="select_all">全选</string>
+    <string name="unselect_all">取消选择</string>
 
     <string name="download_tasks_status_loading">状态: 加载中…</string>
     <string name="download_tasks_status_pending">状态: 队列中</string>
@@ -42,4 +47,5 @@
     <string name="download_tasks_status_paused">状态: 暂停</string>
     <string name="download_tasks_status_completed">状态: 下载完成</string>
     <string name="download_tasks_status_not_downloaded">状态: 未下载</string>
+    <string name="delete">删除</string>
 </resources>

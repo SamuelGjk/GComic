@@ -2,6 +2,7 @@ package moe.yukinoneko.gcomic.module.download.tasks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import android.widget.ProgressBar;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,11 +38,63 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
 
     private List<ComicData.ChaptersBean.ChapterBean> mFullChapters;
 
+    private Set<Integer> mSelectedItems;
+
+    private OnItemLongClickListener onItemLongClickListener;
+
+    interface OnItemLongClickListener {
+        void onItemLongClick(View view, int position);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    private ActionMode mActionMode;
+
+    public void setActionMode(ActionMode actionMode) {
+        this.mActionMode = actionMode;
+    }
+
+    public ActionMode getActionMode() {
+        return mActionMode;
+    }
+
+    public void quitMultiselectionMode() {
+        mActionMode = null;
+        mSelectedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public void selectAll() {
+        for (int i = 0; i < mData.size(); i++) {
+            mSelectedItems.add(i);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void unselectAll() {
+        mSelectedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public List<DownloadTaskModel> deleteSelectedTasks() {
+        List<DownloadTaskModel> tasks = new ArrayList<>();
+        for (int position : mSelectedItems) {
+            tasks.add(mData.get(position));
+        }
+        for (DownloadTaskModel task : tasks) {
+            mData.remove(task);
+        }
+        return tasks;
+    }
+
     public DownloadTasksListAdapter(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = new ArrayList<>();
         this.mDownloadTasksManager = DownloadTasksManager.getInstance(context);
+        this.mSelectedItems = new HashSet<>();
     }
 
     @Override
@@ -80,6 +135,12 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
             holder.taskStatus.setText(R.string.download_tasks_status_loading);
             holder.taskActionBtn.setEnabled(false);
         }
+
+        if (mSelectedItems.contains(position)) {
+            holder.itemView.setBackgroundColor(0x66FF4081);
+        } else {
+            holder.itemView.setBackgroundColor(0xFFFFFFFF);
+        }
     }
 
     @Override
@@ -101,7 +162,7 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
         this.mFullChapters = chapters;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, DownloadTasksManager.ITaskViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, DownloadTasksManager.ITaskViewHolder {
 
         @BindView(R.id.task_name) AppCompatTextView taskName;
         @BindView(R.id.task_progress_bar) ProgressBar taskPb;
@@ -113,6 +174,7 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
 
             taskActionBtn.setColorFilter(0xFF757575);
             taskActionBtn.setOnClickListener(this);
@@ -138,28 +200,43 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
                     break;
 
                 default:
-                    ArrayList<ComicData.ChaptersBean.ChapterBean> chapters = new ArrayList<>();
-                    int chapterPosition;
-                    if (mFullChapters != null && mFullChapters.size() > 0) {
-                        chapters.addAll(mFullChapters);
-                        chapterPosition = mData.get(position).position + (mFullChapters.size() - mData.get(position).chaptersSize);
-                    } else {
-                        for (DownloadTaskModel task : mData) {
-                            ComicData.ChaptersBean.ChapterBean chapter = new ComicData.ChaptersBean.ChapterBean();
-                            chapter.chapterId = task.chapterId;
-                            chapter.chapterTitle = task.chapterTitle;
-                            chapters.add(chapter);
+                    if (mActionMode != null) {
+                        if (mSelectedItems.contains(position)) {
+                            mSelectedItems.remove(position);
+                        } else {
+                            mSelectedItems.add(position);
                         }
-                        chapterPosition = position;
+                        notifyItemChanged(position);
+                    } else {
+                        ArrayList<ComicData.ChaptersBean.ChapterBean> chapters = new ArrayList<>();
+                        int chapterPosition;
+                        if (mFullChapters != null && !mFullChapters.isEmpty()) {
+                            chapters.addAll(mFullChapters);
+                            chapterPosition = mData.get(position).position + (mFullChapters.size() - mData.get(position).chaptersSize);
+                        } else {
+                            for (DownloadTaskModel task : mData) {
+                                ComicData.ChaptersBean.ChapterBean chapter = new ComicData.ChaptersBean.ChapterBean();
+                                chapter.chapterId = task.chapterId;
+                                chapter.chapterTitle = task.chapterTitle;
+                                chapters.add(chapter);
+                            }
+                            chapterPosition = position;
+                        }
+                        Intent intent = new Intent(mContext, GalleryActivity.class);
+                        intent.putExtra(GalleryActivity.GALLERY_CMOIC_ID, mData.get(0).comicId);
+                        intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, chapterPosition);
+                        intent.putExtra(GalleryActivity.GALLERY_CMOIC_FIRST_LETTER, mData.get(0).firstLetter);
+                        intent.putParcelableArrayListExtra(GalleryActivity.GALLERY_CHAPTER_LIST, chapters);
+                        mContext.startActivity(intent);
                     }
-                    Intent intent = new Intent(mContext, GalleryActivity.class);
-                    intent.putExtra(GalleryActivity.GALLERY_CMOIC_ID, mData.get(0).comicId);
-                    intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, chapterPosition);
-                    intent.putExtra(GalleryActivity.GALLERY_CMOIC_FIRST_LETTER, mData.get(0).firstLetter);
-                    intent.putParcelableArrayListExtra(GalleryActivity.GALLERY_CHAPTER_LIST, chapters);
-                    mContext.startActivity(intent);
                     break;
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            onItemLongClickListener.onItemLongClick(v, position);
+            return false;
         }
 
         /**

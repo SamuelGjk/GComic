@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?selectableItemBackground"
     android:padding="10dp">
 
     <android.support.v7.widget.AppCompatTextView
@@ -11,7 +12,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
-        android:text="Task Name"
         android:textColor="@color/textPrimary"
         app:layout_width="parent.width - btn_task_action.width" />
 
@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
-        android:text="Task Status"
         android:textColor="@color/textSecondary"
         android:textSize="12sp"
         app:layout_right="prev.right"

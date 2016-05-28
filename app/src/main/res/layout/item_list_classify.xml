@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:foreground="?android:selectableItemBackground">
+    android:foreground="?selectableItemBackground">
 
     <com.github.mmin18.widget.FlexLayout
         android:layout_width="match_parent"

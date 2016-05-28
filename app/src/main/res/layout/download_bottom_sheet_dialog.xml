@@ -7,15 +7,33 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
-    <android.support.v7.widget.AppCompatTextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:lines="1"
-        android:text="@string/select_the_desired_download_chapter"
-        android:textColor="@color/textPrimary"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/select_the_desired_download_chapter"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_download_all"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_gravity="center_vertical|end"
+            android:background="@null"
+            android:foreground="?selectableItemBackground"
+            android:text="@string/download_all"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp" />
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
@@ -26,7 +44,10 @@
         android:id="@+id/download_chapter_chooser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layoutManager="GridLayoutManager"
         app:spanCount="4" />
 </LinearLayout>

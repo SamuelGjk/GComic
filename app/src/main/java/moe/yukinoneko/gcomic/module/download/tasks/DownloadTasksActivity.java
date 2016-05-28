@@ -1,12 +1,14 @@
 package moe.yukinoneko.gcomic.module.download.tasks;
 
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
-import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ import moe.yukinoneko.gcomic.widget.DividerItemDecoration;
 /**
  * Created by SamuelGjk on 2016/5/13.
  */
-public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresenter> implements IDownloadTasksView {
+public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresenter> implements IDownloadTasksView, DownloadTasksListAdapter.OnItemLongClickListener, ActionMode.Callback {
     public static final String DOWMLOADED_COMIC_ID = "DOWMLOADED_COMIC_ID";
     public static final String DOWMLOADED_COMIC_TITLE = "DOWMLOADED_COMIC_TITLE";
 
@@ -34,32 +36,27 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
 
         @Override
         public void connected() {
-            if (mAdapter != null) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mAdapter != null) {
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-            }
+            postNotifyDataChanged();
         }
 
         @Override
         public void disconnected() {
-            if (mAdapter != null) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mAdapter != null) {
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-            }
+            postNotifyDataChanged();
         }
     };
+
+    public void postNotifyDataChanged() {
+        if (mAdapter != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
+    }
 
     @Override
     protected int provideContentViewId() {
@@ -85,6 +82,7 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
         mTaskList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         mAdapter = new DownloadTasksListAdapter(this);
+        mAdapter.setOnItemLongClickListener(this);
         mTaskList.setAdapter(mAdapter);
 
         DownloadTasksManager.getInstance(this).addServiceConnectListener(fileDownloadConnectListener);
@@ -115,7 +113,7 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
 
     @Override
     protected void onDestroy() {
-        FileDownloader.getImpl().removeServiceConnectListener(fileDownloadConnectListener);
+        DownloadTasksManager.getInstance(this).removeServiceConnectListener(fileDownloadConnectListener);
         super.onDestroy();
     }
 
@@ -132,5 +130,49 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
     @Override
     public void setComicFullChapters(List<ComicData.ChaptersBean.ChapterBean> chapters) {
         mAdapter.setFullChapters(chapters);
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+        if (mAdapter.getActionMode() == null) {
+            mAdapter.setActionMode(startSupportActionMode(this));
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        MenuInflater inflater = mode.getMenuInflater();
+        inflater.inflate(R.menu.download_tasks_action_mode, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_select_all:
+                mAdapter.selectAll();
+                return true;
+            case R.id.menu_unselect_all:
+                mAdapter.unselectAll();
+                return true;
+            case R.id.menu_delete_selected:
+                presenter.deleteTasks(mAdapter.deleteSelectedTasks());
+                mAdapter.getActionMode().finish();
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        mAdapter.quitMultiselectionMode();
     }
 }

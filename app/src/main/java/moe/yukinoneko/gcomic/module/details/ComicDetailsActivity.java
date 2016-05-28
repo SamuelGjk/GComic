@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
@@ -40,7 +39,7 @@ import moe.yukinoneko.gcomic.utils.SnackbarUtils;
 /**
  * Created by SamuelGjk on 2016/4/19.
  */
-public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter> implements IComicDetailsView, ChapterGridAdapter.OnChapterClickListener {
+public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter> implements IComicDetailsView, ChapterGridAdapter.OnChapterClickListener, DownloadBottomSheetDialogView.OnBottomSheetDismissListener {
 
     public static final String COMIC_DETAILS_ID = "COMIC_DETAILS_ID";
     public static final String COMIC_DETAILS_TITLE = "COMIC_DETAILS_TITLE";
@@ -57,7 +56,6 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     @BindView(R.id.comic_details_coordinatorLayout) CoordinatorLayout comicDetailsCoordinatorLayout;
     @BindView(R.id.comic_details_content) NestedScrollView comicDetailsContent;
     @BindView(R.id.loading_progress_bar) ProgressBar loadingProgressBar;
-    @BindView(R.id.comic_details_fab) FloatingActionButton comicDetailsFab;
 
     private Menu menu;
 
@@ -75,11 +73,14 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     private String comicCover;
     private String firstLetter;
 
-    @OnClick(R.id.comic_details_description)
+    @OnClick({ R.id.comic_details_description, R.id.comic_details_fab })
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.comic_details_description:
                 mDescriptionDialog.show();
+                break;
+            case R.id.comic_details_fab:
+                showMessageSnackbar("暂时没什么卵用");
                 break;
 
             default:
@@ -180,7 +181,8 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     public void updateComicDetailsContent(ComicData comicData) {
         firstLetter = comicData.firstLetter;
 
-        mBottomSheetDialogView = new DownloadBottomSheetDialogView(this, comicId, comicTitle, comicCover, firstLetter, mAdapter.getData(), comicData.downloadedChapters);
+        mBottomSheetDialogView = new DownloadBottomSheetDialogView(this, comicId, comicTitle, comicCover, firstLetter, mAdapter.getData());
+        mBottomSheetDialogView.setOnBottomSheetDismissListener(this);
 
         comicDetailsDescription.setText(comicData.description);
         mDescriptionDialog.setMessage(comicData.description);
@@ -235,5 +237,10 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     protected void onDestroy() {
         mBottomSheetDialogView.unsubscribe();
         super.onDestroy();
+    }
+
+    @Override
+    public void onBottomSheetDismiss() {
+        mAdapter.notifyDataSetChanged();
     }
 }
