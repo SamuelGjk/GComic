@@ -171,12 +171,104 @@ public class DownloadTasksManager {
         task.start();
     }
 
+    // 用于从漫画详情页下载
     public void startTasks(final List<DownloadTaskModel> models) {
         if (!isReady()) {
             return;
         }
 
-        final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(taskDownloadListener);
+        // 别问我为什么这样写，大概是疯了
+        final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(new FileDownloadSampleListener() {
+
+            private ITaskViewHolder checkCurrentHolder(final BaseDownloadTask task) {
+                final ITaskViewHolder tag = (ITaskViewHolder) task.getTag();
+                if (tag == null || tag.getId() != task.getId()) {
+                    return null;
+                }
+
+                return tag;
+            }
+
+            @Override
+            protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                super.pending(task, soFarBytes, totalBytes);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateDownloading(FileDownloadStatus.pending, soFarBytes, totalBytes);
+            }
+
+            @Override
+            protected void started(BaseDownloadTask task) {
+                super.started(task);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateDownloading(FileDownloadStatus.started, 0, 1);
+            }
+
+            @Override
+            protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateDownloading(FileDownloadStatus.connected, soFarBytes, totalBytes);
+            }
+
+            @Override
+            protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                super.progress(task, soFarBytes, totalBytes);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateDownloading(FileDownloadStatus.progress, soFarBytes, totalBytes);
+            }
+
+            @Override
+            protected void error(BaseDownloadTask task, Throwable e) {
+                super.error(task, e);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateNotDownloaded(FileDownloadStatus.error, task.getLargeFileSoFarBytes(), task.getLargeFileTotalBytes());
+                removeTaskForViewHolder(task.getId());
+            }
+
+            @Override
+            protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                super.paused(task, soFarBytes, totalBytes);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateNotDownloaded(FileDownloadStatus.paused, soFarBytes, totalBytes);
+                removeTaskForViewHolder(task.getId());
+            }
+
+            @Override
+            protected void completed(BaseDownloadTask task) {
+                super.completed(task);
+                final ITaskViewHolder tag = checkCurrentHolder(task);
+                if (tag == null) {
+                    return;
+                }
+
+                tag.updateDownloaded();
+                removeTaskForViewHolder(task.getId());
+            }
+        });
 
         final List<BaseDownloadTask> tasks = new ArrayList<>();
         for (DownloadTaskModel model : models) {
@@ -200,6 +292,7 @@ public class DownloadTasksManager {
         FileDownloader.getImpl().pause(downloadId);
     }
 
+    // 用于下载管理页面
     public void startAllTasks(final List<DownloadTaskModel> taskModels) {
         for (DownloadTaskModel taskModel : taskModels) {
             startTask(taskModel);

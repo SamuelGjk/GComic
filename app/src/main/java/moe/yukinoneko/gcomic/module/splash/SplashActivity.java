@@ -21,7 +21,10 @@ import moe.yukinoneko.gcomic.utils.SnackbarUtils;
  */
 public class SplashActivity extends BaseActivity<SplashPresenter> implements IBaseView {
 
-    private static final int REQUEST_CODE_ASK_PERMISSIONS = 10001;
+    private final int REQUEST_CODE_ASK_PERMISSIONS = 10001;
+
+    private Handler mHandler;
+    private Runnable mRunnable;
 
     @Override
     protected int provideContentViewId() {
@@ -84,13 +87,21 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements IBa
     }
 
     private void toMainActivity() {
-        new Handler().postDelayed(new Runnable() {
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        }, 500);
+        };
+        mHandler.postDelayed(mRunnable, 1000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mHandler.removeCallbacks(mRunnable);
+        super.onDestroy();
     }
 }

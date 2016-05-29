@@ -74,6 +74,10 @@ public class RankFragment extends BaseFragment<RankPresenter> implements IRankVi
     }
 
     private void doRefresh() {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+
         setRefreshing(true);
         mSwipeTarget.smoothScrollToPosition(0);
         isRefresh = true;
@@ -90,7 +94,9 @@ public class RankFragment extends BaseFragment<RankPresenter> implements IRankVi
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(refreshing);
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(refreshing);
+                }
             }
         }, refreshing ? 0 : 1000);
     }

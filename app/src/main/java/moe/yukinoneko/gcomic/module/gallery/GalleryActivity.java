@@ -53,6 +53,9 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
 
     private int intCurPage;
 
+    private Handler mHandler;
+    private Runnable mPreviousRunnable, mNextRunnable;
+
     private final int NOT_FULL_SCREEN_FLAG = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
     private final int FULL_SCREEN_FLAG = NOT_FULL_SCREEN_FLAG | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
@@ -74,6 +77,34 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) bottomBar.getLayoutParams();
         lp.setMargins(0, 0, 0, Utils.getNavigationBarHeight(this));
 
+        mHandler = new Handler();
+        mPreviousRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mChapterPosition < mChapters.size() - 1) {
+                    mChapterPosition += 1;
+                    mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
+                    fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
+                } else {
+                    galleryPager.setCurrentItem(1);
+                    showMessageSnackbar(getString(R.string.already_first));
+                }
+            }
+        };
+        mNextRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mChapterPosition > 0) {
+                    mChapterPosition -= 1;
+                    mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
+                    fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
+                } else {
+                    galleryPager.setCurrentItem(mPagerAdapter.getCount() - 2);
+                    showMessageSnackbar(getString(R.string.already_last));
+                }
+            }
+        };
+
         galleryPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -93,35 +124,9 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                 curPage.setText(String.valueOf(intCurPage));
 
                 if (position == 0) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mChapterPosition < mChapters.size() - 1) {
-                                mChapterPosition += 1;
-                                mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
-                                fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
-//                                presenter.fetchChapterDetails(mComicId, mChapters.get(mChapterPosition).chapterId);
-                            } else {
-                                galleryPager.setCurrentItem(1);
-                                showMessageSnackbar(getString(R.string.already_first));
-                            }
-                        }
-                    }, 1000);
+                    mHandler.postDelayed(mPreviousRunnable, 1000);
                 } else if (position == mPagerAdapter.getCount() - 1) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mChapterPosition > 0) {
-                                mChapterPosition -= 1;
-                                mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
-                                fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
-//                                presenter.fetchChapterDetails(mComicId, mChapters.get(mChapterPosition).chapterId);
-                            } else {
-                                galleryPager.setCurrentItem(mPagerAdapter.getCount() - 2);
-                                showMessageSnackbar(getString(R.string.already_last));
-                            }
-                        }
-                    }, 1000);
+                    mHandler.postDelayed(mNextRunnable, 1000);
                 }
             }
 
@@ -233,5 +238,12 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                   })
                   .start();
         mDecorView.setSystemUiVisibility(isShown ? FULL_SCREEN_FLAG : NOT_FULL_SCREEN_FLAG);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mHandler.removeCallbacks(mPreviousRunnable);
+        mHandler.removeCallbacks(mNextRunnable);
+        super.onDestroy();
     }
 }

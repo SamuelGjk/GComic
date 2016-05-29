@@ -93,6 +93,7 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
                 models.add(taskModel);
             }
         }
+
         Subscription subscription = DownloadTasksManager.getInstance(context)
                                                         .addTasks(models)
                                                         .observeOn(AndroidSchedulers.mainThread())

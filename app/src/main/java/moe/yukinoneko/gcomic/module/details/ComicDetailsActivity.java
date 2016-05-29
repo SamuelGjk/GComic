@@ -140,7 +140,9 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                presenter.fetchComicDetails(comicId);
+                if (presenter != null) {
+                    presenter.fetchComicDetails(comicId);
+                }
             }
         }, 358);
     }

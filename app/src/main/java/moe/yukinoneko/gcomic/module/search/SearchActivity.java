@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.List;
 
@@ -49,6 +50,12 @@ public class SearchActivity extends ToolBarActivity<SearchPresenter> implements 
         keyword = intent.getStringExtra(SEARCH_KEYWORD);
 
         mToolbar.setTitle(keyword);
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSwipeTarget.smoothScrollToPosition(0);
+            }
+        });
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,6 +91,10 @@ public class SearchActivity extends ToolBarActivity<SearchPresenter> implements 
     }
 
     private void doRefresh() {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+
         setRefreshing(true);
         mSwipeTarget.smoothScrollToPosition(0);
         isRefresh = true;
@@ -100,7 +111,9 @@ public class SearchActivity extends ToolBarActivity<SearchPresenter> implements 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(refreshing);
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(refreshing);
+                }
             }
         }, refreshing ? 0 : 1000);
     }

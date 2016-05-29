@@ -75,6 +75,12 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
         String comicTitle = getIntent().getStringExtra(DOWMLOADED_COMIC_TITLE);
 
         mToolbar.setTitle(getString(R.string.download_tasks_label, comicTitle));
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTaskList.smoothScrollToPosition(0);
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mTaskList.setLayoutManager(layoutManager);

@@ -1,5 +1,6 @@
 package moe.yukinoneko.gcomic.module.download;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatTextView;
@@ -92,7 +93,7 @@ public class DownloadedComicGridAdapter extends RecyclerView.Adapter<DownloadedC
             Intent intent = new Intent(mContext, DownloadTasksActivity.class);
             intent.putExtra(DownloadTasksActivity.DOWMLOADED_COMIC_ID, taskModel.comicId);
             intent.putExtra(DownloadTasksActivity.DOWMLOADED_COMIC_TITLE, taskModel.comicTitle);
-            mContext.startActivity(intent);
+            ((Activity) mContext).startActivityForResult(intent, DownloadedComicActivity.REQUEST_CODE_DOWNLOADED_COMIC);
         }
     }
 }

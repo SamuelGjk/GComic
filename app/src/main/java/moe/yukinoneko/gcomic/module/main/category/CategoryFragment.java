@@ -61,6 +61,10 @@ public class CategoryFragment extends BaseFragment<CategoryPresenter> implements
     }
 
     private void doRefresh() {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+
         setRefreshing(true);
         mSwipeTarget.smoothScrollToPosition(0);
         presenter.fetchCategoryData();
@@ -76,7 +80,9 @@ public class CategoryFragment extends BaseFragment<CategoryPresenter> implements
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(refreshing);
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(refreshing);
+                }
             }
         }, refreshing ? 0 : 1000);
     }
