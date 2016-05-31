@@ -8,6 +8,8 @@ import com.squareup.moshi.Json;
 import java.util.ArrayList;
 import java.util.List;
 
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
+
 /**
  * Created by SamuelGjk on 2016/4/6.
  */
@@ -32,6 +34,8 @@ public class ComicData {
     public List<ChaptersBean> chapters;
 
     public List<Integer> downloadedChapters = new ArrayList<>();
+
+    public ReadHistoryModel readHistory;
 
     public static class CommentBean {
         @Json(name = "comment_count") public int commentCount;

@@ -31,6 +31,7 @@ import me.gujun.android.taggroup.TagGroup;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.ToolBarActivity;
 import moe.yukinoneko.gcomic.data.ComicData;
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 import moe.yukinoneko.gcomic.glide.GlideUrlFactory;
 import moe.yukinoneko.gcomic.module.details.bottomsheet.DownloadBottomSheetDialogView;
 import moe.yukinoneko.gcomic.module.gallery.GalleryActivity;
@@ -40,6 +41,8 @@ import moe.yukinoneko.gcomic.utils.SnackbarUtils;
  * Created by SamuelGjk on 2016/4/19.
  */
 public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter> implements IComicDetailsView, ChapterGridAdapter.OnChapterClickListener, DownloadBottomSheetDialogView.OnBottomSheetDismissListener {
+
+    private final int REQUEST_CODE_COMIC_DETAILS = 10001;
 
     public static final String COMIC_DETAILS_ID = "COMIC_DETAILS_ID";
     public static final String COMIC_DETAILS_TITLE = "COMIC_DETAILS_TITLE";
@@ -80,7 +83,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
                 mDescriptionDialog.show();
                 break;
             case R.id.comic_details_fab:
-                showMessageSnackbar("暂时没什么卵用");
+                toGallery(mAdapter.getHistoryPosition());
                 break;
 
             default:
@@ -148,6 +151,14 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_COMIC_DETAILS) {
+            presenter.fetchReadHistory(comicId);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.details, menu);
@@ -202,6 +213,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
         typeTagGroup.setTags(types);
 
         mAdapter.setDownloadedChapters(comicData.downloadedChapters);
+        mAdapter.setReadHistory(comicData.readHistory);
 
         final List<ComicData.ChaptersBean.ChapterBean> chapters = comicData.chapters.get(0).data;
 
@@ -226,23 +238,35 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     }
 
     @Override
-    public void onChapterClick(ArrayList<ComicData.ChaptersBean.ChapterBean> chapters, int position) {
-        Intent intent = new Intent(this, GalleryActivity.class);
-        intent.putExtra(GalleryActivity.GALLERY_CMOIC_ID, comicId);
-        intent.putExtra(GalleryActivity.GALLERY_CMOIC_FIRST_LETTER, firstLetter);
-        intent.putParcelableArrayListExtra(GalleryActivity.GALLERY_CHAPTER_LIST, chapters);
-        intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, position);
-        startActivity(intent);
+    public void updateReadHistory(ReadHistoryModel history) {
+        mAdapter.setReadHistory(history);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onChapterClick(int position) {
+        toGallery(position);
     }
 
     @Override
     protected void onDestroy() {
-        mBottomSheetDialogView.unsubscribe();
+        if (mBottomSheetDialogView != null) {
+            mBottomSheetDialogView.unsubscribe();
+        }
         super.onDestroy();
     }
 
     @Override
     public void onBottomSheetDismiss() {
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void toGallery(int position) {
+        Intent intent = new Intent(this, GalleryActivity.class);
+        intent.putExtra(GalleryActivity.GALLERY_CMOIC_ID, comicId);
+        intent.putExtra(GalleryActivity.GALLERY_CMOIC_FIRST_LETTER, firstLetter);
+        intent.putParcelableArrayListExtra(GalleryActivity.GALLERY_CHAPTER_LIST, mAdapter.getAllChapters());
+        intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, position);
+        startActivityForResult(intent, REQUEST_CODE_COMIC_DETAILS);
     }
 }

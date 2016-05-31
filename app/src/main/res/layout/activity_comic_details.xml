@@ -117,7 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@mipmap/ic_refresh_white"
+        android:src="@mipmap/ic_image_white"
         app:layout_anchor="@id/comic_details_appbar_layout"
         app:layout_anchorGravity="bottom|end" />
 </android.support.design.widget.CoordinatorLayout>

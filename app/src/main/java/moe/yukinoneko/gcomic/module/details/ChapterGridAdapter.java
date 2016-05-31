@@ -12,6 +12,7 @@ import java.util.List;
 
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.data.ComicData;
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 
 /**
  * Created by SamuelGjk on 2016/4/7.
@@ -24,6 +25,9 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
     private List<ComicData.ChaptersBean.ChapterBean> mData;
 
     private List<Integer> mDownloadedChapters;
+
+    private ReadHistoryModel mReadHistory;
+    private int mHistoryPosition;
 
     private OnChapterClickListener onChapterClickListener;
 
@@ -47,6 +51,12 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
         }
 
+        if (mReadHistory != null && chapter.chapterId == mReadHistory.chapterId) {
+            mHistoryPosition = position;
+            holder.itemView.setBackgroundResource(R.color.colorAccent);
+            ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
+        }
+
         ((AppCompatTextView) holder.itemView).setText(chapter.chapterTitle);
     }
 
@@ -59,10 +69,22 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
         this.mDownloadedChapters = chapters;
     }
 
+    void setReadHistory(ReadHistoryModel readHistory) {
+        this.mReadHistory = readHistory;
+    }
+
     void replaceAll(List<ComicData.ChaptersBean.ChapterBean> elem) {
         mData.clear();
         mData.addAll(elem);
         notifyDataSetChanged();
+    }
+
+    ArrayList<ComicData.ChaptersBean.ChapterBean> getAllChapters() {
+        return new ArrayList<>(mData);
+    }
+
+    int getHistoryPosition() {
+        return mHistoryPosition;
     }
 
     List<ComicData.ChaptersBean.ChapterBean> getData() {
@@ -79,12 +101,12 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
 
         @Override
         public void onClick(View v) {
-            onChapterClickListener.onChapterClick(new ArrayList<>(mData), getAdapterPosition());
+            onChapterClickListener.onChapterClick(getAdapterPosition());
         }
     }
 
     interface OnChapterClickListener {
-        void onChapterClick(ArrayList<ComicData.ChaptersBean.ChapterBean> chapters, int position);
+        void onChapterClick(int position);
     }
 
     public void setOnChapterClickListener(OnChapterClickListener listener) {

@@ -195,6 +195,8 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
 
     private void fetchChapterContent(int chapterId) {
         // @formatter:off
+        presenter.updateReadHistory(mComicId, chapterId);
+
         String url = GComicApi.getInstance().generateDownloadUrl(firstLetter, mComicId, chapterId);
         String path = DownloadTasksManager.getInstance(this).generatePath(url);
         int id = FileDownloadUtils.generateId(url, path);

@@ -7,6 +7,8 @@ import java.util.List;
 
 import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.data.ChapterData;
+import moe.yukinoneko.gcomic.database.GComicDB;
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 import moe.yukinoneko.gcomic.network.GComicApi;
 import moe.yukinoneko.gcomic.utils.FileUtlis;
 import rx.Subscription;
@@ -53,6 +55,18 @@ public class GalleryPresenter extends BasePresenter<IGalleryView> {
                                                      iView.updatePagerContent(null, bytes, true);
                                                  }
                                              });
+        addSubscription(subscription);
+    }
+
+    void updateReadHistory(int comicId, int chapterId) {
+        Subscription subscription = GComicDB.getInstance(mContext)
+                                            .save(new ReadHistoryModel(comicId, chapterId))
+                                            .subscribe(new Action1<Long>() {
+                                                @Override
+                                                public void call(Long aLong) {
+                                                    // do nothing..
+                                                }
+                                            });
         addSubscription(subscription);
     }
 }
