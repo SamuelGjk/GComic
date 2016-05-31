@@ -30,7 +30,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        FileDownloadLog.NEED_LOG = true;
+        FileDownloadLog.NEED_LOG = false;
 
         FileDownloader.init(getApplicationContext());
     }

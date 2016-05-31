@@ -66,10 +66,13 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
             chapter.isDownloaded = true;
             holder.itemView.setBackgroundResource(R.color.colorPrimary);
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
+        } else {
+            holder.itemView.setBackgroundResource(R.drawable.bg_cyan_stroke);
+            ((AppCompatTextView) holder.itemView).setTextColor(0xFF00BCD4);
         }
 
         if (mReadHistory != null && chapter.chapterId == mReadHistory.chapterId) {
-            mHistoryPosition = position;
+            mHistoryPosition = holder.getAdapterPosition();
             holder.itemView.setBackgroundResource(R.color.colorAccent);
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
         }
