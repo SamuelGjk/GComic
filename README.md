@@ -3,7 +3,7 @@
 [下载地址](	http://fir.im/GComic)
 
 ## 界面截图
-<img src="/screenshots/Screenshot_0.png" width="240" height="427" /> <img src="/screenshots/Screenshot_1.png" width="240" height="427" />
+<img src="/screenshots/Screenshot_0.png" width="480" height="854" /> <img src="/screenshots/Screenshot_1.png" width="480" height="854" />
 
 ## Changelog
 ### 1.0.0
