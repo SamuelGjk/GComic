@@ -20,17 +20,21 @@ import android.view.View;
 
 import com.mypopsy.widget.FloatingSearchView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.BaseActivity;
-import moe.yukinoneko.gcomic.base.IBaseView;
+import moe.yukinoneko.gcomic.database.model.SearchHistoryModel;
 import moe.yukinoneko.gcomic.download.DownloadTasksManager;
+import moe.yukinoneko.gcomic.module.about.AboutActivity;
 import moe.yukinoneko.gcomic.module.download.DownloadedComicActivity;
 import moe.yukinoneko.gcomic.module.favorite.FavoriteActivity;
 import moe.yukinoneko.gcomic.module.search.SearchActivity;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements IBaseView, ActionMenuView.OnMenuItemClickListener {
+public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, ActionMenuView.OnMenuItemClickListener, SearchSuggestionsAdapter.OnSuggestionClickListener {
+    public static final String TAG = "MainActivity";
 
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.main_app_bar_layout) AppBarLayout mAppBarLayout;
@@ -42,6 +46,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
     @BindView(R.id.drawer_navigation) NavigationView mNavigationView;
 
     private MainPagerAdapter mAdapter;
+    private SearchSuggestionsAdapter mSearchSuggestionsAdapter;
 
     public interface ChildRefresher {
         void doChildRefresh();
@@ -53,6 +58,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
         if (f != null && f instanceof ChildRefresher) {
             ((ChildRefresher) f).doChildRefresh();
         }
+    }
+
+    @Override
+    public void onSuggestionClick(SearchHistoryModel history) {
+        mSearchView.setText(history.keyword);
+
+        toSearch(history.keyword);
+    }
+
+    @Override
+    public void onRemoveClick(SearchHistoryModel history) {
+        presenter.removeSearchHistory(history);
     }
 
     @Override
@@ -81,6 +98,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
                         Intent downloadIntent = new Intent(MainActivity.this, DownloadedComicActivity.class);
                         startActivity(downloadIntent);
                         break;
+                    case R.id.navigation_about:
+                        Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                        startActivity(aboutIntent);
+                        break;
                 }
                 return false;
             }
@@ -101,22 +122,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
         mSearchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 showClearButton(s.length() > 0 && mSearchView.isActivated());
+
+                presenter.fetchSearchHistory();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         mSearchView.setOnSearchFocusChangedListener(new FloatingSearchView.OnSearchFocusChangedListener() {
             @Override
             public void onFocusChanged(boolean focused) {
+                if (focused) {
+                    presenter.fetchSearchHistory();
+                }
+
                 boolean textEmpty = TextUtils.isEmpty(mSearchView.getText());
 
                 showClearButton(focused && !textEmpty);
@@ -125,11 +150,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSearchAction(CharSequence charSequence) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                intent.putExtra(SearchActivity.SEARCH_KEYWORD, charSequence.toString());
-                startActivity(intent);
+                presenter.addSearchHistory();
+
+                toSearch(charSequence.toString().trim());
             }
         });
+
+        mSearchSuggestionsAdapter = new SearchSuggestionsAdapter(this);
+        mSearchSuggestionsAdapter.setOnRemoveClickListener(this);
+        mSearchView.setAdapter(mSearchSuggestionsAdapter);
 
         mAdapter = new MainPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
@@ -146,12 +175,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IBaseVi
     }
 
     @Override
+    public String getSearchKeyword() {
+        return mSearchView.getText().toString().trim();
+    }
+
+    @Override
+    public void updateSearchSuggestions(List<SearchHistoryModel> suggestions) {
+        mSearchSuggestionsAdapter.replaceAll(suggestions);
+    }
+
+    private void toSearch(String keyword) {
+        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+        intent.putExtra(SearchActivity.SEARCH_KEYWORD, keyword);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_clear:
                 mSearchView.setText(null);
-                break;
-            case R.id.menu_settings:
                 break;
 
             default:

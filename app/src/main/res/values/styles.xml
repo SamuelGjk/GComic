@@ -27,4 +27,7 @@
         <item name="atg_pressedBackgroundColor">@color/colorPrimary</item>
     </style>
 
+    <style name="CollapsingToolbarTitle.Transparent" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
 </resources>

@@ -10,4 +10,9 @@
         android:id="@+id/navigation_download"
         android:icon="@mipmap/ic_cloud_download_white"
         android:title="@string/download" />
+
+    <item
+        android:id="@+id/navigation_about"
+        android:icon="@mipmap/ic_info_white"
+        android:title="@string/about" />
 </menu>

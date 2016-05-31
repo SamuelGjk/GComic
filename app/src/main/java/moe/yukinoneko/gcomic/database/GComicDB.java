@@ -129,6 +129,15 @@ public class GComicDB {
         }).subscribeOn(Schedulers.io());
     }
 
+    public <T> Observable<ArrayList<T>> queryByLike(final Class<T> cls, final String where, final String[] value) {
+        return Observable.defer(new Func0<Observable<ArrayList<T>>>() {
+            @Override
+            public Observable<ArrayList<T>> call() {
+                return Observable.just(liteOrm.query(new QueryBuilder<>(cls).where(where + " LIKE ?", value)));
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
     /**
      * 查询 某字段 等于 value 的值  可以指定从1-20，就是分页
      */

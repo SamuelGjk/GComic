@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp"
+    android:paddingEnd="12dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="12dp"
+    android:paddingStart="16dp"
+    android:paddingTop="6dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_search_suggestion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/textPrimary" />
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/button_remove_suggestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:foreground="?selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_clear" />
+</LinearLayout>

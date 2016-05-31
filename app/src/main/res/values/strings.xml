@@ -25,6 +25,18 @@
     <string name="download">下载</string>
     <string name="select_the_desired_download_chapter">选择要下载的章节</string>
 
+    <!-- about -->
+    <string name="about">关于</string>
+    <string name="app_version">Version %1$s</string>
+    <string name="introduce">介绍</string>
+    <string name="app_introduce">兴趣(lian)使然(shou)的产物, 如您所见是一个看漫画的应用</string>
+    <string name="developer">开发者</string>
+    <string name="developer_info">SamuelGjk\nGitHub: https://github.com/SamuelGjk\n新浪微博: @打酱油的什么鬼</string>
+    <string name="credit">鸣谢</string>
+    <string name="credit_list">drakeet(妹纸&amp;gank.io)\nPanl(Gank.io)</string>
+    <string name="open_source_libs">使用的开源库</string>
+    <string name="open_source_libs_list">LiteOrm\nRatioImageView.java\nDividerItemDecoration.java\ncom.android.support:*\nio.reactivex:rxjava\nio.reactivex:rxandroid\ncom.squareup.okhttp3:okhttp\ncom.squareup.retrofit2:*\ncom.github.bumptech.glide:*\ncom.jakewharton:butterknife\ncom.github.renaudcerrato:FloatingSearchView\ncom.github.mmin18:flexlayout\ncom.amulyakhare:com.amulyakhare.textdrawable\nme.gujun.android.taggroup:library\ncom.github.chrisbanes.photoview:library\ncom.liulishuo.filedownloader:library</string>
+
     <!-- download -->
     <string name="pause">暂停</string>
     <string name="start">开始</string>
@@ -48,4 +60,5 @@
     <string name="download_tasks_status_completed">状态: 下载完成</string>
     <string name="download_tasks_status_not_downloaded">状态: 未下载</string>
     <string name="delete">删除</string>
+    <string name="about_cover_Illust">Illust by -Ask--</string>
 </resources>
