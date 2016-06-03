@@ -1,10 +1,13 @@
 # GComic
 因为找不到一个喜欢的看漫画的应用，所以自己写了一个，也算是用来练手  
 数据是抓取的某网站的Api，所以Api就不公开了  
+欢迎各位大神指教
 
-**禁止商用！！！**
+**禁止商用！！！禁止商用！！！禁止商用！！！**
 
 [下载地址](	http://fir.im/GComic)
+
+PS.源代码中缺少GComicApi这个类，GComicApi中是Retrofit的基本用法和Api，所以屏蔽了
 
 ## 界面截图
 <img src="/screenshots/Screenshot_0.png" width="40%" /> <img src="/screenshots/Screenshot_1.png" width="40%" />
