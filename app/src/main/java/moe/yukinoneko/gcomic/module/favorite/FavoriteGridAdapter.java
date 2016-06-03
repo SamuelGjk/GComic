@@ -68,7 +68,6 @@ public class FavoriteGridAdapter extends RecyclerView.Adapter<FavoriteGridAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.favorite = mData.get(position);
 
-        holder.comicCover.setOriginalSize(222, 222);
         // @formatter:off
         TextDrawable placeholder = TextDrawable.builder().buildRect(Utils.getFirstCharacter(holder.favorite.comicTitle), mColorGenerator.getColor(holder.favorite.comicTitle));
         Glide.with(mContext)
@@ -103,6 +102,7 @@ public class FavoriteGridAdapter extends RecyclerView.Adapter<FavoriteGridAdapte
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(this);
+            comicCover.setOriginalSize(222, 222);
         }
 
         @Override

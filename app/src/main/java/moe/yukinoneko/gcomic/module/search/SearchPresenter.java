@@ -44,14 +44,14 @@ public class SearchPresenter extends BasePresenter<ISearchView> {
                                              .subscribe(new Action1<List<SearchData>>() {
                                                  @Override
                                                  public void call(List<SearchData> searchDatas) {
-                                                     iView.setRefreshing(false);
                                                      iView.updateResultList(searchDatas);
+                                                     iView.setRefreshing(false);
                                                  }
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.setRefreshing(false);
                                                      iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.setRefreshing(false);
                                                  }
                                              });
         addSubscription(subscription);

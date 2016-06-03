@@ -234,7 +234,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
 
         final List<ComicData.ChaptersBean.ChapterBean> chapters = comicData.chapters.get(0).data;
 
-        loadingProgressBar.setVisibility(View.GONE);
+        loadingProgressBar.setVisibility(View.INVISIBLE);
         ViewCompat.animate(comicDetailsContent)
                   .alpha(1.0f)
                   .setListener(new ViewPropertyAnimatorListenerAdapter() {

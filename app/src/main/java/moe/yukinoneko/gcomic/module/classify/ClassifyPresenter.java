@@ -44,14 +44,14 @@ public class ClassifyPresenter extends BasePresenter<IClassifyView> {
                                              .subscribe(new Action1<List<ClassifyData>>() {
                                                  @Override
                                                  public void call(List<ClassifyData> classifyDatas) {
-                                                     iView.setRefreshing(false);
                                                      iView.updateClassifyList(classifyDatas);
+                                                     iView.setRefreshing(false);
                                                  }
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.setRefreshing(false);
                                                      iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.setRefreshing(false);
                                                  }
                                              });
         addSubscription(subscription);

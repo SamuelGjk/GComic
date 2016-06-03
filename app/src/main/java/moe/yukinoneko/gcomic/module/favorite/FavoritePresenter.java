@@ -44,8 +44,8 @@ public class FavoritePresenter extends BasePresenter<IFavoriteView> {
                                             .subscribe(new Action1<ArrayList<FavoriteModel>>() {
                                                 @Override
                                                 public void call(ArrayList<FavoriteModel> favoriteModels) {
-                                                    iView.setRefreshing(false);
                                                     iView.updateFavoriteList(favoriteModels);
+                                                    iView.setRefreshing(false);
                                                 }
                                             });
         addSubscription(subscription);

@@ -69,7 +69,6 @@ public class DownloadedComicGridAdapter extends RecyclerView.Adapter<DownloadedC
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.taskModel = mData.get(position);
 
-        holder.comicCover.setOriginalSize(222, 222);
         // @formatter:off
         TextDrawable placeholder = TextDrawable.builder().buildRect(Utils.getFirstCharacter(holder.taskModel.comicTitle), mColorGenerator.getColor(holder.taskModel.comicTitle));
         Glide.with(mContext)
@@ -103,6 +102,7 @@ public class DownloadedComicGridAdapter extends RecyclerView.Adapter<DownloadedC
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(this);
+            comicCover.setOriginalSize(222, 222);
         }
 
         @Override

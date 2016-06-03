@@ -45,24 +45,21 @@ public class ComicDetailsPresenter extends BasePresenter<IComicDetailsView> {
     }
 
     void fetchComicDetails(int comicId) {
-        Subscription subscription = Observable.zip(GComicApi.getInstance()
-                                                            .fetchComicDetails(comicId),
-                DownloadTasksManager.getInstance(mContext)
-                                    .getTasksByComicId(new String[]{ String.valueOf(comicId) }),
-                GComicDB.getInstance(mContext)
-                        .queryByWhere(ReadHistoryModel.class, "comicId", new String[]{ String.valueOf(comicId) }),
-                new Func3<ComicData, ArrayList<DownloadTaskModel>, ArrayList<ReadHistoryModel>, ComicData>() {
-                    @Override
-                    public ComicData call(ComicData comicData, ArrayList<DownloadTaskModel> downloadTaskModels, ArrayList<ReadHistoryModel> readHistoryModels) {
-                        for (DownloadTaskModel model : downloadTaskModels) {
-                            comicData.downloadedChapters.add(model.chapterId);
-                        }
-                        if (!readHistoryModels.isEmpty()) {
-                            comicData.readHistory = readHistoryModels.get(0);
-                        }
-                        return comicData;
-                    }
-                })
+        Subscription subscription = Observable.zip(GComicApi.getInstance().fetchComicDetails(comicId),
+                                                    DownloadTasksManager.getInstance(mContext).getTasksByComicId(new String[]{ String.valueOf(comicId) }),
+                                                    GComicDB.getInstance(mContext).queryByWhere(ReadHistoryModel.class, "comicId", new String[]{ String.valueOf(comicId) }),
+                                                    new Func3<ComicData, ArrayList<DownloadTaskModel>, ArrayList<ReadHistoryModel>, ComicData>() {
+                                                        @Override
+                                                        public ComicData call(ComicData comicData, ArrayList<DownloadTaskModel> downloadTaskModels, ArrayList<ReadHistoryModel> readHistoryModels) {
+                                                            for (DownloadTaskModel model : downloadTaskModels) {
+                                                                comicData.downloadedChapters.add(model.chapterId);
+                                                            }
+                                                            if (!readHistoryModels.isEmpty()) {
+                                                                comicData.readHistory = readHistoryModels.get(0);
+                                                            }
+                                                            return comicData;
+                                                        }
+                                                    })
                                               .observeOn(AndroidSchedulers.mainThread())
                                               .subscribe(new Action1<ComicData>() {
                                                   @Override

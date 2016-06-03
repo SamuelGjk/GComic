@@ -69,7 +69,6 @@ public class CategoryGridAdapter extends RecyclerView.Adapter<CategoryGridAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.category = mData.get(position);
 
-        holder.categoryCover.setOriginalSize(222, 222);
         // @formatter:off
         TextDrawable placeholder = TextDrawable.builder().buildRect(Utils.getFirstCharacter(holder.category.title), mColorGenerator.getColor(holder.category.title));
         Glide.with(mContext)
@@ -102,6 +101,7 @@ public class CategoryGridAdapter extends RecyclerView.Adapter<CategoryGridAdapte
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(this);
+            categoryCover.setOriginalSize(222, 222);
         }
 
         @Override

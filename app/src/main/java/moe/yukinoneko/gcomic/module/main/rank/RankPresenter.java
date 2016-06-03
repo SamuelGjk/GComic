@@ -44,14 +44,14 @@ public class RankPresenter extends BasePresenter<IRankView> {
                                              .subscribe(new Action1<List<RankData>>() {
                                                  @Override
                                                  public void call(List<RankData> rankDatas) {
-                                                     iView.setRefreshing(false);
                                                      iView.updateRankList(rankDatas);
+                                                     iView.setRefreshing(false);
                                                  }
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.setRefreshing(false);
                                                      iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.setRefreshing(false);
                                                  }
                                              });
         addSubscription(subscription);

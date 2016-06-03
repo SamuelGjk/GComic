@@ -43,14 +43,14 @@ public class CategoryPresenter extends BasePresenter<ICategoryView> {
                                              .subscribe(new Action1<List<CategoryData>>() {
                                                  @Override
                                                  public void call(List<CategoryData> categoryDatas) {
-                                                     iView.setRefreshing(false);
                                                      iView.updateCategoryList(categoryDatas);
+                                                     iView.setRefreshing(false);
                                                  }
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.setRefreshing(false);
                                                      iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.setRefreshing(false);
                                                  }
                                              });
         addSubscription(subscription);
