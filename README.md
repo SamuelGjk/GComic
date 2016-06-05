@@ -3,7 +3,7 @@
 数据是抓取的某网站的Api，所以Api就不公开了  
 欢迎各位大神指教
 
-**禁止商用！！！禁止商用！！！禁止商用！！！**
+### 禁止商用！！！禁止商用！！！禁止商用！！！
 
 [下载地址](	http://fir.im/GComic)
 
@@ -13,8 +13,13 @@ PS.源代码中缺少GComicApi这个类，GComicApi中是Retrofit的基本用法
 <img src="/screenshots/Screenshot_0.png" width="40%" /> <img src="/screenshots/Screenshot_1.png" width="40%" />
 
 ## Changelog
-### 1.0.0
+### 1.0.0(Alpha2)
+1.修复PhotoView在ViewPager里使用的问题
+### 1.0.0(Alpha1)
 1.初次放出
+
+## TODO
+1.更友好的对待5.0以下的设备
 
 ## 鸣谢
 [drakeet](https://github.com/drakeet)(Meizhi)  
