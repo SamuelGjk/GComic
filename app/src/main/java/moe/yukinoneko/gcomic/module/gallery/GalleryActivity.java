@@ -41,6 +41,7 @@ import moe.yukinoneko.gcomic.download.DownloadTasksManager;
 import moe.yukinoneko.gcomic.network.GComicApi;
 import moe.yukinoneko.gcomic.utils.SnackbarUtils;
 import moe.yukinoneko.gcomic.utils.Utils;
+import moe.yukinoneko.gcomic.widget.HackyViewPager;
 
 /**
  * Created by SamuelGjk on 2016/4/20.
@@ -53,7 +54,7 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     public static final String GALLERY_CHAPTER_LIST = "GALLERY_CHAPTER_LIST";
     public static final String GALLERY_CHAPTER_POSITION = "GALLERY_CHAPTER_POSITION";
 
-    @BindView(R.id.gallery_pager) ViewPager galleryPager;
+    @BindView(R.id.gallery_pager) HackyViewPager galleryPager;
     @BindView(R.id.bottom_bar) LinearLayout bottomBar;
     @BindView(R.id.seek_bar) AppCompatSeekBar seekBar;
     @BindView(R.id.cur_page) AppCompatTextView curPage;
