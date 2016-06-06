@@ -30,8 +30,8 @@ android {
         applicationId "moe.yukinoneko.gcomic"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 2
-        versionName "1.0.0(Alpha2)"
+        versionCode 3
+        versionName "1.0.0(Alpha3)"
     }
     buildTypes {
         release {
@@ -85,4 +85,6 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
 
     compile 'com.liulishuo.filedownloader:library:0.3.1'
+
+    compile 'me.zhanghai.android.materialprogressbar:library:1.1.6'
 }

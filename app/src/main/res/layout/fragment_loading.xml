@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016  SamuelGjk <samuel.alva@outlook.com>
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,8 +22,12 @@
     android:background="#333333"
     app:layout_width="20%">
 
-    <ProgressBar
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        style="@style/Widget.MaterialProgressBar.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_centerY="50%" />
+        android:indeterminate="true"
+        app:layout_centerY="50%"
+        app:mpb_progressStyle="circular" />
+
 </com.github.mmin18.widget.FlexLayout>

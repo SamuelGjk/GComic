@@ -16,9 +16,6 @@
   -->
 
 <resources>
-    <dimen name="search_view_inset">5dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-
-    <dimen name="toolbar_padding_top">0dp</dimen>
-    <dimen name="cardview_margin">3dp</dimen>
+    <dimen name="toolbar_padding_top">25dp</dimen>
+    <dimen name="cardview_margin">5dp</dimen>
 </resources>

@@ -52,7 +52,7 @@
     <string name="credit">鸣谢</string>
     <string name="credit_list">drakeet(妹纸&amp;gank.io)\nPanl(Gank.io)</string>
     <string name="open_source_libs">使用的开源库</string>
-    <string name="open_source_libs_list">LiteOrm\nRatioImageView.java\nDividerItemDecoration.java\ncom.android.support:*\nio.reactivex:rxjava\nio.reactivex:rxandroid\ncom.squareup.okhttp3:okhttp\ncom.squareup.retrofit2:*\ncom.github.bumptech.glide:*\ncom.jakewharton:butterknife\ncom.github.renaudcerrato:FloatingSearchView\ncom.github.mmin18:flexlayout\ncom.amulyakhare:com.amulyakhare.textdrawable\nme.gujun.android.taggroup:library\ncom.github.chrisbanes.photoview:library\ncom.liulishuo.filedownloader:library</string>
+    <string name="open_source_libs_list">LiteOrm\nRatioImageView.java\nDividerItemDecoration.java\ncom.android.support:*\nio.reactivex:rxjava\nio.reactivex:rxandroid\ncom.squareup.okhttp3:okhttp\ncom.squareup.retrofit2:*\ncom.github.bumptech.glide:*\ncom.jakewharton:butterknife\ncom.github.renaudcerrato:FloatingSearchView\ncom.github.mmin18:flexlayout\ncom.amulyakhare:com.amulyakhare.textdrawable\nme.gujun.android.taggroup:library\ncom.github.chrisbanes.photoview:library\ncom.liulishuo.filedownloader:library\nme.zhanghai.android.materialprogressbar:library</string>
 
     <!-- download -->
     <string name="pause">暂停</string>

@@ -16,5 +16,5 @@
   -->
 
 <resources>
-    <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="toolbar_padding_top">24dp</dimen>
 </resources>

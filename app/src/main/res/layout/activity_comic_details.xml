@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016  SamuelGjk <samuel.alva@outlook.com>
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -122,12 +121,15 @@
         </com.github.mmin18.widget.FlexLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <ProgressBar
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/loading_progress_bar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        style="@style/Widget.MaterialProgressBar.ProgressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="56dp" />
+        android:layout_marginTop="56dp"
+        android:indeterminate="true"
+        app:mpb_progressStyle="circular" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/comic_details_fab"

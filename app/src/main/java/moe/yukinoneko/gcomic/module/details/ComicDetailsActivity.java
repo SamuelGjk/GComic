@@ -35,7 +35,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 
@@ -45,6 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.gujun.android.taggroup.TagGroup;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.ToolBarActivity;
 import moe.yukinoneko.gcomic.data.ComicData;
@@ -75,7 +75,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     @BindView(R.id.chapter_list) RecyclerView chapterList;
     @BindView(R.id.comic_details_coordinatorLayout) CoordinatorLayout comicDetailsCoordinatorLayout;
     @BindView(R.id.comic_details_content) NestedScrollView comicDetailsContent;
-    @BindView(R.id.loading_progress_bar) ProgressBar loadingProgressBar;
+    @BindView(R.id.loading_progress_bar) MaterialProgressBar loadingProgressBar;
 
     private Menu menu;
 

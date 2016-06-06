@@ -18,6 +18,7 @@
 package moe.yukinoneko.gcomic.module.gallery;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -92,8 +93,10 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     public void init() {
         mDecorView = getWindow().getDecorView();
 
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) bottomBar.getLayoutParams();
-        lp.setMargins(0, 0, 0, Utils.getNavigationBarHeight(this));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) bottomBar.getLayoutParams();
+            lp.setMargins(0, 0, 0, Utils.getNavigationBarHeight(this));
+        }
 
         mHandler = new Handler();
         mPreviousRunnable = new Runnable() {
@@ -257,7 +260,10 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                       }
                   })
                   .start();
-        mDecorView.setSystemUiVisibility(isShown ? FULL_SCREEN_FLAG : NOT_FULL_SCREEN_FLAG);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDecorView.setSystemUiVisibility(isShown ? FULL_SCREEN_FLAG : NOT_FULL_SCREEN_FLAG);
+        }
     }
 
     @Override

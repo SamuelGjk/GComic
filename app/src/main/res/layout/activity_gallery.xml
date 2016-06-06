@@ -66,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#66000000"
-        android:paddingTop="@dimen/status_bar_height"
+        android:paddingTop="@dimen/toolbar_padding_top"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 </android.support.design.widget.CoordinatorLayout>

@@ -26,7 +26,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
@@ -37,6 +36,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.data.ComicData;
 import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
@@ -182,7 +182,7 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, DownloadTasksManager.ITaskViewHolder {
 
         @BindView(R.id.task_name) AppCompatTextView taskName;
-        @BindView(R.id.task_progress_bar) ProgressBar taskPb;
+        @BindView(R.id.task_progress_bar) MaterialProgressBar taskPb;
         @BindView(R.id.btn_task_action) AppCompatImageButton taskActionBtn;
         @BindView(R.id.task_status) AppCompatTextView taskStatus;
 
