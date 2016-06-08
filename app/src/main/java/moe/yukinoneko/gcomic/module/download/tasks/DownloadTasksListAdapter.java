@@ -55,7 +55,7 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
 
     private List<ComicData.ChaptersBean.ChapterBean> mFullChapters;
 
-    private Set<Integer> mSelectedItems;
+    private Set<DownloadTaskModel> mSelectedTasks;
 
     private OnItemLongClickListener onItemLongClickListener;
 
@@ -79,31 +79,23 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
 
     public void quitMultiselectionMode() {
         mActionMode = null;
-        mSelectedItems.clear();
+        mSelectedTasks.clear();
         notifyDataSetChanged();
     }
 
     public void selectAll() {
-        for (int i = 0; i < mData.size(); i++) {
-            mSelectedItems.add(i);
-        }
+        mSelectedTasks.addAll(mData);
         notifyDataSetChanged();
     }
 
     public void unselectAll() {
-        mSelectedItems.clear();
+        mSelectedTasks.clear();
         notifyDataSetChanged();
     }
 
     public List<DownloadTaskModel> deleteSelectedTasks() {
-        List<DownloadTaskModel> tasks = new ArrayList<>();
-        for (int position : mSelectedItems) {
-            tasks.add(mData.get(position));
-        }
-        for (DownloadTaskModel task : tasks) {
-            mData.remove(task);
-        }
-        return tasks;
+        mData.removeAll(mSelectedTasks);
+        return new ArrayList<>(mSelectedTasks);
     }
 
     public DownloadTasksListAdapter(Context context) {
@@ -111,7 +103,7 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
         this.mInflater = LayoutInflater.from(context);
         this.mData = new ArrayList<>();
         this.mDownloadTasksManager = DownloadTasksManager.getInstance(context);
-        this.mSelectedItems = new HashSet<>();
+        this.mSelectedTasks = new HashSet<>();
     }
 
     @Override
@@ -121,21 +113,21 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final DownloadTaskModel model = mData.get(position);
+        holder.taskModel = mData.get(position);
 
-        holder.update(model.id, position);
-        holder.taskName.setText(model.chapterTitle);
+        holder.update(holder.taskModel.id, position);
+        holder.taskName.setText(holder.taskModel.chapterTitle);
 
         mDownloadTasksManager.updateViewHolder(holder.id, holder);
 
         holder.taskActionBtn.setEnabled(true);
 
         if (mDownloadTasksManager.isReady()) {
-            final int status = mDownloadTasksManager.getStatus(model.id);
+            final int status = mDownloadTasksManager.getStatus(holder.taskModel.id);
             if (status == FileDownloadStatus.pending || status == FileDownloadStatus.started || status == FileDownloadStatus.connected) {
                 // start task, but file not created yet
-                holder.updateDownloading(status, mDownloadTasksManager.getSoFar(model.id), mDownloadTasksManager.getTotal(model.id));
-            } else if (!mDownloadTasksManager.isExist(model.path)) {
+                holder.updateDownloading(status, mDownloadTasksManager.getSoFar(holder.taskModel.id), mDownloadTasksManager.getTotal(holder.taskModel.id));
+            } else if (!mDownloadTasksManager.isExist(holder.taskModel.path)) {
                 // not exist file
                 holder.updateNotDownloaded(status, 0, 0);
             } else if (mDownloadTasksManager.isDownloaded(status)) {
@@ -143,17 +135,17 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
                 holder.updateDownloaded();
             } else if (status == FileDownloadStatus.progress) {
                 // downloading
-                holder.updateDownloading(status, mDownloadTasksManager.getSoFar(model.id), mDownloadTasksManager.getTotal(model.id));
+                holder.updateDownloading(status, mDownloadTasksManager.getSoFar(holder.taskModel.id), mDownloadTasksManager.getTotal(holder.taskModel.id));
             } else {
                 // not start
-                holder.updateNotDownloaded(status, mDownloadTasksManager.getSoFar(model.id), mDownloadTasksManager.getTotal(model.id));
+                holder.updateNotDownloaded(status, mDownloadTasksManager.getSoFar(holder.taskModel.id), mDownloadTasksManager.getTotal(holder.taskModel.id));
             }
         } else {
             holder.taskStatus.setText(R.string.download_tasks_status_loading);
             holder.taskActionBtn.setEnabled(false);
         }
 
-        if (mSelectedItems.contains(position)) {
+        if (mSelectedTasks.contains(holder.taskModel)) {
             holder.itemView.setBackgroundColor(0x66FF4081);
         } else {
             holder.itemView.setBackgroundColor(0xFFFFFFFF);
@@ -185,6 +177,8 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
         @BindView(R.id.task_progress_bar) MaterialProgressBar taskPb;
         @BindView(R.id.btn_task_action) AppCompatImageButton taskActionBtn;
         @BindView(R.id.task_status) AppCompatTextView taskStatus;
+
+        DownloadTaskModel taskModel;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -218,10 +212,10 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
 
                 default:
                     if (mActionMode != null) {
-                        if (mSelectedItems.contains(position)) {
-                            mSelectedItems.remove(position);
+                        if (mSelectedTasks.contains(taskModel)) {
+                            mSelectedTasks.remove(taskModel);
                         } else {
-                            mSelectedItems.add(position);
+                            mSelectedTasks.add(taskModel);
                         }
                         notifyItemChanged(position);
                     } else {
