@@ -18,7 +18,7 @@ minSdkVersion 16
 
 ## Changelog
 ### 1.1.0(Alpha1)
-1.增加黑暗模式w
+1.增加黑化模式www
 ### 1.0.0(Alpha3)
 1.针对5.0以下设备做了一些处理
 ### 1.0.0(Alpha2)
