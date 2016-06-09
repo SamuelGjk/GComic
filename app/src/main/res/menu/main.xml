@@ -24,4 +24,9 @@
         android:title="@string/clear"
         android:visible="false"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_day_night"
+        android:title="@string/day_night_mode"
+        app:showAsAction="never" />
 </menu>

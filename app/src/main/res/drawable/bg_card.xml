@@ -16,18 +16,19 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/toolbar" />
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#10000000" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/favorite_comic_grid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="StaggeredGridLayoutManager"
-        app:spanCount="2" />
-</LinearLayout>
+    <item android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/card_background_color" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+</layer-list>

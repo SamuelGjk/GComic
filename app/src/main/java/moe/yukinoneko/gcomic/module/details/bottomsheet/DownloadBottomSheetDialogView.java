@@ -20,6 +20,7 @@ package moe.yukinoneko.gcomic.module.details.bottomsheet;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -37,6 +38,7 @@ import moe.yukinoneko.gcomic.data.ComicData;
 import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
 import moe.yukinoneko.gcomic.download.DownloadTasksManager;
 import moe.yukinoneko.gcomic.network.GComicApi;
+import moe.yukinoneko.gcomic.utils.Utils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -48,7 +50,7 @@ import rx.subscriptions.CompositeSubscription;
 public class DownloadBottomSheetDialogView implements View.OnClickListener {
     public static final String TAG = "DownloadBSDView";
 
-    private Context context;
+    private Context mContext;
     private int comicId;
     private String comicTitle;
     private String comicCover;
@@ -61,7 +63,7 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
 
     // @formatter:off
     public DownloadBottomSheetDialogView(Context context, int comicId, String comicTitle, String comicCover, String firstLetter, List<ComicData.ChaptersBean.ChapterBean> chapters) {
-        this.context = context;
+        this.mContext = context;
         this.comicId = comicId;
         this.comicTitle = comicTitle;
         this.comicCover = comicCover;
@@ -73,8 +75,8 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
 
     // @formatter:on
     public void show() {
-        BottomSheetDialog dialog = new BottomSheetDialog(context);
-        dialog.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        BottomSheetDialog dialog = new BottomSheetDialog(mContext);
+        dialog.getDelegate().setLocalNightMode(Utils.isNightMode(mContext) ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -82,7 +84,7 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
             }
         });
 
-        View view = LayoutInflater.from(context).inflate(R.layout.download_bottom_sheet_dialog, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.download_bottom_sheet_dialog, null);
 
         AppCompatButton buttonDownloadAll = (AppCompatButton) view.findViewById(R.id.button_download_all);
         buttonDownloadAll.setOnClickListener(this);
@@ -111,14 +113,14 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
             }
         }
 
-        Subscription subscription = DownloadTasksManager.getInstance(context)
+        Subscription subscription = DownloadTasksManager.getInstance(mContext)
                                                         .addTasks(models)
                                                         .observeOn(AndroidSchedulers.mainThread())
                                                         .subscribe(new Action1<Integer>() {
                                                             @Override
                                                             public void call(Integer integer) {
                                                                 if (integer == models.size()) {
-                                                                    DownloadTasksManager.getInstance(context).startTasks(models);
+                                                                    DownloadTasksManager.getInstance(mContext).startTasks(models);
                                                                     for (ComicData.ChaptersBean.ChapterBean chapter : chapters) {
                                                                         chapter.isDownloaded = true;
                                                                     }
@@ -145,8 +147,8 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
                 holder.itemView.setBackgroundResource(R.color.colorPrimary);
                 ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
             } else {
-                holder.itemView.setBackgroundResource(R.drawable.bg_cyan_stroke);
-                ((AppCompatTextView) holder.itemView).setTextColor(0xFF00BCD4);
+                holder.itemView.setBackgroundResource(R.drawable.bg_stroke);
+                ((AppCompatTextView) holder.itemView).setTextColor(ContextCompat.getColor(mContext, R.color.chapter_text_color));
             }
 
             ((AppCompatTextView) holder.itemView).setText(chapter.chapterTitle);
@@ -175,14 +177,14 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
                 }
 
                 final DownloadTaskModel taskModel = new DownloadTaskModel(-1, comicId, comicTitle, comicCover, chapter.chapterId, chapter.chapterTitle, firstLetter, getAdapterPosition(), chapters.size(), GComicApi.getInstance().generateDownloadUrl(firstLetter, comicId, chapter.chapterId), null);
-                Subscription subscription = DownloadTasksManager.getInstance(context)
+                Subscription subscription = DownloadTasksManager.getInstance(mContext)
                                                                 .addTask(taskModel)
                                                                 .observeOn(AndroidSchedulers.mainThread())
                                                                 .subscribe(new Action1<Long>() {
                                                                     @Override
                                                                     public void call(Long aLong) {
                                                                         if (aLong != -1) {
-                                                                            DownloadTasksManager.getInstance(context).startTask(taskModel);
+                                                                            DownloadTasksManager.getInstance(mContext).startTask(taskModel);
                                                                             itemView.setBackgroundResource(R.color.colorPrimary);
                                                                             ((AppCompatTextView) itemView).setTextColor(0xFFFFFFFF);
                                                                             chapter.isDownloaded = true;

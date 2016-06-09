@@ -17,10 +17,8 @@
 
 package moe.yukinoneko.gcomic.module.favorite;
 
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import java.util.List;
@@ -35,8 +33,9 @@ import moe.yukinoneko.gcomic.database.model.FavoriteModel;
  */
 public class FavoriteActivity extends ToolBarActivity<FavoritePresenter> implements IFavoriteView {
 
-    @BindView(R.id.swipe_target) RecyclerView mSwipeTarget;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    static final int REQUEST_CODE_FAVORITE_COMIC = 10001;
+
+    @BindView(R.id.favorite_comic_grid) RecyclerView mFavoriteComicGrid;
 
     private FavoriteGridAdapter mAdapter;
 
@@ -56,56 +55,29 @@ public class FavoriteActivity extends ToolBarActivity<FavoritePresenter> impleme
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSwipeTarget.smoothScrollToPosition(0);
+                mFavoriteComicGrid.smoothScrollToPosition(0);
             }
         });
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                doRefresh();
-            }
-        });
-
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mSwipeTarget.setLayoutManager(layoutManager);
-        mSwipeTarget.setHasFixedSize(true);
+        mFavoriteComicGrid.setHasFixedSize(true);
 
         mAdapter = new FavoriteGridAdapter(this);
-        mSwipeTarget.setAdapter(mAdapter);
+        mFavoriteComicGrid.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doRefresh();
-            }
-        }, 358);
-    }
-
-    private void doRefresh() {
-        if (mSwipeRefreshLayout == null) {
-            return;
-        }
-
-        setRefreshing(true);
         presenter.fetchFavoriteData();
-    }
-
-    @Override
-    public void setRefreshing(final boolean refreshing) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(refreshing);
-                }
-            }
-        }, refreshing ? 0 : 1000);
     }
 
     @Override
     public void updateFavoriteList(List<FavoriteModel> favorites) {
         mAdapter.replaceAll(favorites);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_FAVORITE_COMIC) {
+            presenter.fetchFavoriteData();
+        }
     }
 }

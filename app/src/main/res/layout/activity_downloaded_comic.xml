@@ -28,6 +28,6 @@
         android:id="@+id/downloaded_comic_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="GridLayoutManager"
+        app:layoutManager="StaggeredGridLayoutManager"
         app:spanCount="2" />
 </LinearLayout>

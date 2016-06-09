@@ -20,6 +20,7 @@ package moe.yukinoneko.gcomic.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -100,5 +101,12 @@ public class Utils {
             e.printStackTrace();
         }
         return "unknown";
+    }
+
+    public static boolean isNightMode(Context context) {
+        int uiMode = context.getResources().getConfiguration().uiMode;
+        int dayNightUiMode = uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        return dayNightUiMode == Configuration.UI_MODE_NIGHT_YES;
     }
 }

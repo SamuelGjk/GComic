@@ -107,7 +107,7 @@ public class FavoriteGridAdapter extends RecyclerView.Adapter<FavoriteGridAdapte
 
         @Override
         public void onClick(View v) {
-            ComicDetailsActivity.launchActivity(mContext, comicCover, favorite.comicId, favorite.comicTitle, favorite.comicAuthors, favorite.comicCover);
+            ComicDetailsActivity.launchActivityForResult(mContext, comicCover, favorite.comicId, favorite.comicTitle, favorite.comicAuthors, favorite.comicCover, FavoriteActivity.REQUEST_CODE_FAVORITE_COMIC);
         }
     }
 }

@@ -30,4 +30,10 @@
 
     <color name="black_66">#66000000</color>
     <color name="divider_color">#B6B6B6</color>
+
+    <color name="chapter_text_color">@color/colorPrimary</color>
+    <color name="download_task_background_color">#00000000</color>
+    <color name="card_background_color">#FFFFFF</color>
+    <color name="search_view_background_color">#F0F0F0</color>
+    <color name="action_button_color">#696969</color>
 </resources>

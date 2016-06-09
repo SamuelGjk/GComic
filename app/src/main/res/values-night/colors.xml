@@ -16,18 +16,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+<resources>
+    <color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#303030</color>
+    <color name="colorAccent">#FF4081</color>
 
-    <include layout="@layout/toolbar" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/favorite_comic_grid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="StaggeredGridLayoutManager"
-        app:spanCount="2" />
-</LinearLayout>
+    <color name="chapter_text_color">#FFFFFF</color>
+    <color name="download_task_background_color">@color/colorPrimary</color>
+    <color name="card_background_color">@color/colorPrimary</color>
+    <color name="search_view_background_color">@color/colorPrimaryDark</color>
+    <color name="action_button_color">#FFFFFF</color>
+</resources>

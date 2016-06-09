@@ -99,18 +99,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:text="@string/introduce"
-                android:textColor="@color/textSecondary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_card_text"
+                android:background="@drawable/bg_card"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="15dp"
                 android:text="@string/app_introduce"
-                android:textColor="@color/textPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:text="@string/developer"
-                android:textColor="@color/textSecondary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -126,11 +126,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:autoLink="web"
-                android:background="@drawable/bg_card_text"
+                android:background="@drawable/bg_card"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="15dp"
                 android:text="@string/developer_info"
-                android:textColor="@color/textPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -138,18 +138,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:text="@string/credit"
-                android:textColor="@color/textSecondary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_card_text"
+                android:background="@drawable/bg_card"
                 android:lineSpacingMultiplier="1.2"
                 android:padding="15dp"
                 android:text="@string/credit_list"
-                android:textColor="@color/textPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -157,17 +157,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:text="@string/open_source_libs"
-                android:textColor="@color/textSecondary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_card_text"
+                android:background="@drawable/bg_card"
                 android:lineSpacingMultiplier="1.1"
                 android:padding="15dp"
                 android:text="@string/open_source_libs_list"
-                android:textColor="@color/textPrimary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="12sp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

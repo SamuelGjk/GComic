@@ -109,6 +109,10 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     }
 
     public static void launchActivity(Context context, View comicCoverView, int comicId, String comicTitle, String comicAuthors, String comicCover) {
+        launchActivityForResult(context, comicCoverView, comicId, comicTitle, comicAuthors, comicCover, -1);
+    }
+
+    public static void launchActivityForResult(Context context, View comicCoverView, int comicId, String comicTitle, String comicAuthors, String comicCover, int requestCode) {
         Intent intent = new Intent(context, ComicDetailsActivity.class);
 
         intent.putExtra(ComicDetailsActivity.COMIC_DETAILS_ID, comicId);
@@ -117,7 +121,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
         intent.putExtra(ComicDetailsActivity.COMIC_DETAILS_COVER, comicCover);
 
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, comicCoverView, ComicDetailsActivity.SHARED_ELEMENT_COVER);
-        ActivityCompat.startActivity((Activity) context, intent, optionsCompat.toBundle());
+        ActivityCompat.startActivityForResult((Activity) context, intent, requestCode, optionsCompat.toBundle());
     }
 
     @Override

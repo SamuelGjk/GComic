@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016  SamuelGjk <samuel.alva@outlook.com>
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,7 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/textPrimary" />
+        android:textColor="?android:textColorPrimary" />
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/button_remove_suggestion"
@@ -43,5 +42,6 @@
         android:background="@null"
         android:foreground="?selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_clear" />
+        android:src="@mipmap/ic_clear"
+        android:tint="@color/action_button_color" />
 </LinearLayout>

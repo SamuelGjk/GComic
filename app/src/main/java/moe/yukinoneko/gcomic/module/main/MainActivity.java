@@ -27,6 +27,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.ActionMenuView;
 import android.text.Editable;
@@ -49,6 +50,7 @@ import moe.yukinoneko.gcomic.module.about.AboutActivity;
 import moe.yukinoneko.gcomic.module.download.DownloadedComicActivity;
 import moe.yukinoneko.gcomic.module.favorite.FavoriteActivity;
 import moe.yukinoneko.gcomic.module.search.SearchActivity;
+import moe.yukinoneko.gcomic.utils.Utils;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, ActionMenuView.OnMenuItemClickListener, SearchSuggestionsAdapter.OnSuggestionClickListener {
     public static final String TAG = "MainActivity";
@@ -213,11 +215,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
             case R.id.menu_clear:
                 mSearchView.setText(null);
                 break;
+            case R.id.menu_day_night:
+                getDelegate().setLocalNightMode(Utils.isNightMode(this) ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
+                recreate();
+                break;
 
             default:
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

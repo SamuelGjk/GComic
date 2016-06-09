@@ -20,9 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/bg_cyan_stroke"
     android:ellipsize="end"
     android:gravity="center"
     android:lines="1"
-    android:padding="5dp"
-    android:textColor="@color/colorPrimary" />
+    android:padding="5dp" />

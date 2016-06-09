@@ -21,6 +21,7 @@
     <string name="settings">Settings</string>
     <string name="clear">Clear</string>
     <string name="hint">Search</string>
+    <string name="day_night_mode">黑暗模式</string>
 
     <string name="ask_permission_msg">GComic需要储存权限以实现缓存和下载功能，缺少权限可能会导致GComic无法正常工作。</string>
     <string name="permission_denied">权限请求被拒绝了QAQ</string>
@@ -50,7 +51,7 @@
     <string name="developer">开发者</string>
     <string name="developer_info">SamuelGjk\nGitHub: https://github.com/SamuelGjk\n新浪微博: @打酱油的什么鬼</string>
     <string name="credit">鸣谢</string>
-    <string name="credit_list">drakeet(妹纸&amp;gank.io)\nPanl(Gank.io)</string>
+    <string name="credit_list">drakeet(妹纸&amp;gank.io)\nPanl(Gank.io)\nliaohuqiu(android-support-23.2-sample)\nfython(NHentai-android)</string>
     <string name="open_source_libs">使用的开源库</string>
     <string name="open_source_libs_list">LiteOrm\nRatioImageView.java\nDividerItemDecoration.java\ncom.android.support:*\nio.reactivex:rxjava\nio.reactivex:rxandroid\ncom.squareup.okhttp3:okhttp\ncom.squareup.retrofit2:*\ncom.github.bumptech.glide:*\ncom.jakewharton:butterknife\ncom.github.renaudcerrato:FloatingSearchView\ncom.github.mmin18:flexlayout\ncom.amulyakhare:com.amulyakhare.textdrawable\nme.gujun.android.taggroup:library\ncom.github.chrisbanes.photoview:library\ncom.liulishuo.filedownloader:library\nme.zhanghai.android.materialprogressbar:library</string>
 

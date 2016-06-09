@@ -18,6 +18,7 @@
 package moe.yukinoneko.gcomic.module.details;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,8 +68,8 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
             holder.itemView.setBackgroundResource(R.color.colorPrimary);
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
         } else {
-            holder.itemView.setBackgroundResource(R.drawable.bg_cyan_stroke);
-            ((AppCompatTextView) holder.itemView).setTextColor(0xFF00BCD4);
+            holder.itemView.setBackgroundResource(R.drawable.bg_stroke);
+            ((AppCompatTextView) holder.itemView).setTextColor(ContextCompat.getColor(mContext, R.color.chapter_text_color));
         }
 
         if (mReadHistory != null && chapter.chapterId == mReadHistory.chapterId) {

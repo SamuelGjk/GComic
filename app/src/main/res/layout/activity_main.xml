@@ -73,6 +73,7 @@
             android:layout_height="match_parent"
             android:hint="@string/hint"
             android:padding="@dimen/search_view_inset"
+            app:fsv_contentBackgroundColor="@color/search_view_background_color"
             app:fsv_menu="@menu/main" />
     </FrameLayout>
 

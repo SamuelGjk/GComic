@@ -19,6 +19,7 @@ package moe.yukinoneko.gcomic.module.download.tasks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -148,7 +149,7 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
         if (mSelectedTasks.contains(holder.taskModel)) {
             holder.itemView.setBackgroundColor(0x66FF4081);
         } else {
-            holder.itemView.setBackgroundColor(0xFFFFFFFF);
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.download_task_background_color));
         }
     }
 
@@ -187,7 +188,6 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            taskActionBtn.setColorFilter(0xFF757575);
             taskActionBtn.setOnClickListener(this);
         }
 
