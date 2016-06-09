@@ -11,6 +11,7 @@ PS.源代码中缺少 GComicApi 这个类，GComicApi 中是 Retrofit 的基本�
 
 ## 界面截图
 <img src="/screenshots/Screenshot_0.png" width="40%" /> <img src="/screenshots/Screenshot_1.png" width="40%" />
+<img src="/screenshots/Screenshot_2.png" width="40%" />
 
 ## MinSDK
 minSdkVersion 16
