@@ -33,7 +33,7 @@ minSdkVersion 16
 [drakeet](https://github.com/drakeet)(Meizhi)  
 [Panl](https://github.com/Panl)(Gank.io)  
 [liaohuqiu](https://github.com/liaohuqiu)(android-support-23.2-sample)  
-[fython](https://github.com/Panl)(NHentai-android)
+[fython](https://github.com/fython)(NHentai-android)
 
 ## 联系我
 E-MAIL: samuel.alva@outlook.com  
