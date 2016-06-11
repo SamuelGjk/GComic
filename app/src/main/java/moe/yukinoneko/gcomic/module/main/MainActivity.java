@@ -50,6 +50,7 @@ import moe.yukinoneko.gcomic.module.about.AboutActivity;
 import moe.yukinoneko.gcomic.module.download.DownloadedComicActivity;
 import moe.yukinoneko.gcomic.module.favorite.FavoriteActivity;
 import moe.yukinoneko.gcomic.module.search.SearchActivity;
+import moe.yukinoneko.gcomic.utils.Settings;
 import moe.yukinoneko.gcomic.utils.Utils;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, ActionMenuView.OnMenuItemClickListener, SearchSuggestionsAdapter.OnSuggestionClickListener {
@@ -217,6 +218,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
                 break;
             case R.id.menu_day_night:
                 getDelegate().setLocalNightMode(Utils.isNightMode(this) ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
+                Settings.getInstance(getApplicationContext()).putBoolean(Settings.NIGHT_MODE, Utils.isNightMode(this));
                 recreate();
                 break;
 

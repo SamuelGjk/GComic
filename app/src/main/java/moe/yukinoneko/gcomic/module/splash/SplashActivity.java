@@ -21,16 +21,19 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.BaseActivity;
 import moe.yukinoneko.gcomic.base.IBaseView;
 import moe.yukinoneko.gcomic.module.main.MainActivity;
+import moe.yukinoneko.gcomic.utils.Settings;
 import moe.yukinoneko.gcomic.utils.SnackbarUtils;
 
 /**
@@ -52,6 +55,14 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements IBa
     protected void initPresenter() {
         presenter = new SplashPresenter(this, this);
         presenter.init();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        boolean night = Settings.getInstance(this).getBoolean(Settings.NIGHT_MODE, false);
+        getDelegate().setLocalNightMode(night ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override
