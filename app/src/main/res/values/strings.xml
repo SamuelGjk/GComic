@@ -25,6 +25,8 @@
 
     <string name="ask_permission_msg">GComic需要储存权限以实现缓存和下载功能，缺少权限可能会导致GComic无法正常工作。</string>
     <string name="permission_denied">权限请求被拒绝了QAQ</string>
+    
+    <string name="using_cellular_data">正在使用手机流量，请小心</string>
 
     <string name="comic_author_placeholder">作者：%s</string>
     <string name="comic_type_placeholder">类型：%s</string>

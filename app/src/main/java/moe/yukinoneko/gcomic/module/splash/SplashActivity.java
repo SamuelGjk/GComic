@@ -35,6 +35,7 @@ import moe.yukinoneko.gcomic.base.IBaseView;
 import moe.yukinoneko.gcomic.module.main.MainActivity;
 import moe.yukinoneko.gcomic.utils.Settings;
 import moe.yukinoneko.gcomic.utils.SnackbarUtils;
+import moe.yukinoneko.gcomic.utils.Utils;
 
 /**
  * Created by SamuelGjk on 2016/5/2.
@@ -67,6 +68,10 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements IBa
 
     @Override
     public void init() {
+        if (Utils.isConnected(this) && !Utils.isWifi(this)) {
+            SnackbarUtils.showLong(findViewById(android.R.id.content), R.string.using_cellular_data);
+        }
+
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.ask_permission_msg)
@@ -124,7 +129,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements IBa
                 finish();
             }
         };
-        mHandler.postDelayed(mRunnable, 1000);
+        mHandler.postDelayed(mRunnable, 2000);
     }
 
     @Override

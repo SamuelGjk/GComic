@@ -69,14 +69,12 @@ public class Utils {
      * 判断网络是否连接
      */
     public static boolean isConnected(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (null != connectivity) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
+        if (null != cm) {
+            NetworkInfo info = cm.getActiveNetworkInfo();
             if (null != info && info.isConnected()) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
@@ -88,7 +86,7 @@ public class Utils {
     public static boolean isWifi(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm != null && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+        return null != cm && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     public static String getVersionName(Context context) {
