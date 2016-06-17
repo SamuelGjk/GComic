@@ -100,7 +100,9 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
                 mDescriptionDialog.show();
                 break;
             case R.id.comic_details_fab:
-                toGallery(mAdapter.getHistoryChapterPosition(), mAdapter.getHistoryBrowsePosition());
+                if (mAdapter.getItemCount() > 0) {
+                    toGallery(mAdapter.getHistoryChapterPosition(), mAdapter.getHistoryBrowsePosition());
+                }
                 break;
 
             default:
