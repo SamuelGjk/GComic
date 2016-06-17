@@ -75,9 +75,9 @@ public class GalleryPresenter extends BasePresenter<IGalleryView> {
         addSubscription(subscription);
     }
 
-    void updateReadHistory(int comicId, int chapterId) {
+    void updateReadHistory(int comicId, int chapterId, int position) {
         Subscription subscription = GComicDB.getInstance(mContext)
-                                            .save(new ReadHistoryModel(comicId, chapterId))
+                                            .save(new ReadHistoryModel(comicId, chapterId, position))
                                             .subscribe(new Action1<Long>() {
                                                 @Override
                                                 public void call(Long aLong) {

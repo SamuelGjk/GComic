@@ -17,6 +17,7 @@
 
 package moe.yukinoneko.gcomic.database.model;
 
+import com.litesuits.orm.db.annotation.Default;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.enums.AssignType;
@@ -32,8 +33,12 @@ public class ReadHistoryModel {
 
     public int chapterId;
 
-    public ReadHistoryModel(int comicId, int chapterId) {
+    @Default("1")
+    public int browsePosition;
+
+    public ReadHistoryModel(int comicId, int chapterId, int browsePosition) {
         this.comicId = comicId;
         this.chapterId = chapterId;
+        this.browsePosition = browsePosition;
     }
 }

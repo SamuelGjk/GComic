@@ -54,6 +54,7 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     public static final String GALLERY_CMOIC_FIRST_LETTER = "GALLERY_CMOIC_FIRST_LETTER";
     public static final String GALLERY_CHAPTER_LIST = "GALLERY_CHAPTER_LIST";
     public static final String GALLERY_CHAPTER_POSITION = "GALLERY_CHAPTER_POSITION";
+    public static final String GALLERY_BROWSE_POSITION = "GALLERY_BROWSE_POSITION";
 
     @BindView(R.id.gallery_pager) HackyViewPager galleryPager;
     @BindView(R.id.bottom_bar) LinearLayout bottomBar;
@@ -68,12 +69,16 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     private int mComicId;
     private String firstLetter;
     private List<ComicData.ChaptersBean.ChapterBean> mChapters;
-    private int mChapterPosition;
+    private int mCurChapterPosition;
+    private int mLastChapterPosition;
+    private int mHistoryBrowsePosition;
 
     private int intCurPage;
 
     private Handler mHandler;
     private Runnable mPreviousRunnable, mNextRunnable;
+
+    private boolean useHistory = true;
 
     private final int NOT_FULL_SCREEN_FLAG = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
     private final int FULL_SCREEN_FLAG = NOT_FULL_SCREEN_FLAG | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
@@ -102,12 +107,14 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
         mPreviousRunnable = new Runnable() {
             @Override
             public void run() {
-                if (mChapterPosition < mChapters.size() - 1) {
-                    mChapterPosition += 1;
-                    mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
-                    fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
+                if (mCurChapterPosition < mChapters.size() - 1) {
+                    mLastChapterPosition = mCurChapterPosition;
+                    mCurChapterPosition += 1;
+                    fetchChapterContent(mChapters.get(mCurChapterPosition).chapterId);
                 } else {
                     galleryPager.setCurrentItem(1);
+                    galleryPager.setLocked(false);
+                    seekBar.setEnabled(true);
                     showMessageSnackbar(getString(R.string.already_first));
                 }
             }
@@ -115,12 +122,14 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
         mNextRunnable = new Runnable() {
             @Override
             public void run() {
-                if (mChapterPosition > 0) {
-                    mChapterPosition -= 1;
-                    mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
-                    fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
+                if (mCurChapterPosition > 0) {
+                    mLastChapterPosition = mCurChapterPosition;
+                    mCurChapterPosition -= 1;
+                    fetchChapterContent(mChapters.get(mCurChapterPosition).chapterId);
                 } else {
                     galleryPager.setCurrentItem(mPagerAdapter.getCount() - 2);
+                    galleryPager.setLocked(false);
+                    seekBar.setEnabled(true);
                     showMessageSnackbar(getString(R.string.already_last));
                 }
             }
@@ -145,8 +154,12 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                 curPage.setText(String.valueOf(intCurPage));
 
                 if (position == 0) {
+                    galleryPager.setLocked(true);
+                    seekBar.setEnabled(false);
                     mHandler.postDelayed(mPreviousRunnable, 1000);
                 } else if (position == mPagerAdapter.getCount() - 1) {
+                    galleryPager.setLocked(true);
+                    seekBar.setEnabled(false);
                     mHandler.postDelayed(mNextRunnable, 1000);
                 }
             }
@@ -159,6 +172,7 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
         mPagerAdapter = new GalleryPagerAdapter(getSupportFragmentManager());
         galleryPager.setAdapter(mPagerAdapter);
 
+        seekBar.setEnabled(false);
         seekBar.setKeyProgressIncrement(1);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -185,13 +199,14 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
         mComicId = intent.getIntExtra(GALLERY_CMOIC_ID, -1);
         firstLetter = intent.getStringExtra(GALLERY_CMOIC_FIRST_LETTER);
         mChapters = intent.getParcelableArrayListExtra(GALLERY_CHAPTER_LIST);
-        mChapterPosition = intent.getIntExtra(GALLERY_CHAPTER_POSITION, -1);
-
-        mToolbar.setTitle(mChapters.get(mChapterPosition).chapterTitle);
+        mCurChapterPosition = intent.getIntExtra(GALLERY_CHAPTER_POSITION, -1);
+        mLastChapterPosition = mCurChapterPosition;
+        mHistoryBrowsePosition = intent.getIntExtra(GALLERY_BROWSE_POSITION, 1);
+        mToolbar.setTitle(mChapters.get(mCurChapterPosition).chapterTitle);
 
         galleryPager.setCurrentItem(1, false);
 
-        fetchChapterContent(mChapters.get(mChapterPosition).chapterId);
+        fetchChapterContent(mChapters.get(mCurChapterPosition).chapterId);
     }
 
     @Override
@@ -201,22 +216,33 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
 
     @Override
     public void updatePagerContent(List<String> urls, List<byte[]> bytes, boolean isFromDisk) {
+        mToolbar.setTitle(mChapters.get(mCurChapterPosition).chapterTitle);
         int count = isFromDisk ? bytes.size() : urls.size();
         totalPages.setText(String.valueOf(count));
         seekBar.setMax(count - 1);
         galleryPager.setCurrentItem(1, false);
         mPagerAdapter.replaceAll(urls, bytes, isFromDisk);
+        galleryPager.setLocked(false);
+        seekBar.setEnabled(true);
+
+        if (useHistory) {
+            useHistory = false;
+            galleryPager.setCurrentItem(mHistoryBrowsePosition, false);
+        }
 //        galleryPager.setCurrentItem(1, false);
     }
 
     @Override
     public void fetchFailure() {
-        galleryPager.setCurrentItem(intCurPage <= 1 ? 1 : intCurPage);
+        galleryPager.setCurrentItem(intCurPage < 1 ? 1 : intCurPage);
+        mCurChapterPosition = mLastChapterPosition;
+        galleryPager.setLocked(false);
+        seekBar.setEnabled(true);
     }
 
     private void fetchChapterContent(int chapterId) {
         // @formatter:off
-        presenter.updateReadHistory(mComicId, chapterId);
+//        presenter.updateReadHistory(mComicId, chapterId);
 
         String url = GComicApi.getInstance().generateDownloadUrl(firstLetter, mComicId, chapterId);
         String path = DownloadTasksManager.getInstance(this).generatePath(url);
@@ -267,9 +293,17 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.updateReadHistory(mComicId, mChapters.get(mCurChapterPosition).chapterId, intCurPage);
+    }
+
+    @Override
     protected void onDestroy() {
         mHandler.removeCallbacks(mPreviousRunnable);
         mHandler.removeCallbacks(mNextRunnable);
+
         super.onDestroy();
     }
 }

@@ -45,7 +45,8 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
     private List<Integer> mDownloadedChapters;
 
     private ReadHistoryModel mReadHistory;
-    private int mHistoryPosition;
+    private int mHistoryChapterPosition;
+    private int mHistoryBrowsePosition;
 
     private OnChapterClickListener onChapterClickListener;
 
@@ -53,6 +54,7 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = new ArrayList<>();
+        this.mHistoryBrowsePosition = 1;
     }
 
     @Override
@@ -73,7 +75,8 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
         }
 
         if (mReadHistory != null && chapter.chapterId == mReadHistory.chapterId) {
-            mHistoryPosition = holder.getAdapterPosition();
+            mHistoryChapterPosition = holder.getAdapterPosition();
+            mHistoryBrowsePosition = mReadHistory.browsePosition;
             holder.itemView.setBackgroundResource(R.color.colorAccent);
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
         }
@@ -104,8 +107,12 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
         return new ArrayList<>(mData);
     }
 
-    int getHistoryPosition() {
-        return mHistoryPosition;
+    int getHistoryChapterPosition() {
+        return mHistoryChapterPosition;
+    }
+
+    int getHistoryBrowsePosition() {
+        return mHistoryBrowsePosition;
     }
 
     List<ComicData.ChaptersBean.ChapterBean> getData() {

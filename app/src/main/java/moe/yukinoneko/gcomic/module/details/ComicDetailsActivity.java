@@ -100,7 +100,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
                 mDescriptionDialog.show();
                 break;
             case R.id.comic_details_fab:
-                toGallery(mAdapter.getHistoryPosition());
+                toGallery(mAdapter.getHistoryChapterPosition(), mAdapter.getHistoryBrowsePosition());
                 break;
 
             default:
@@ -266,7 +266,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
 
     @Override
     public void onChapterClick(int position) {
-        toGallery(position);
+        toGallery(position, position == mAdapter.getHistoryChapterPosition() ? mAdapter.getHistoryBrowsePosition() : 1);
     }
 
     @Override
@@ -282,12 +282,13 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
         mAdapter.notifyDataSetChanged();
     }
 
-    private void toGallery(int position) {
+    private void toGallery(int chapterPosition, int browsePosition) {
         Intent intent = new Intent(this, GalleryActivity.class);
         intent.putExtra(GalleryActivity.GALLERY_CMOIC_ID, comicId);
         intent.putExtra(GalleryActivity.GALLERY_CMOIC_FIRST_LETTER, firstLetter);
         intent.putParcelableArrayListExtra(GalleryActivity.GALLERY_CHAPTER_LIST, mAdapter.getAllChapters());
-        intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, position);
+        intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, chapterPosition);
+        intent.putExtra(GalleryActivity.GALLERY_BROWSE_POSITION, browsePosition);
         startActivityForResult(intent, REQUEST_CODE_COMIC_DETAILS);
     }
 }
