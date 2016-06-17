@@ -17,6 +17,10 @@ PS.源代码中缺少 GComicApi 这个类，GComicApi 中是 Retrofit 的基本�
 minSdkVersion 16
 
 ## Changelog
+### 1.1.2
+1.修复Bug
+2.更精确的阅读记录
+3.优化UI
 ### 1.1.1
 1.完善黑化模式
 ### 1.1.0(Alpha1)
