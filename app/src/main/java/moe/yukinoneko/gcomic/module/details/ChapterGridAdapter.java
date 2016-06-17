@@ -76,7 +76,7 @@ public class ChapterGridAdapter extends RecyclerView.Adapter<ChapterGridAdapter.
 
         if (mReadHistory != null && chapter.chapterId == mReadHistory.chapterId) {
             mHistoryChapterPosition = holder.getAdapterPosition();
-            mHistoryBrowsePosition = mReadHistory.browsePosition;
+            mHistoryBrowsePosition = mReadHistory.browsePosition < 1 ? 1 : mReadHistory.browsePosition;
             holder.itemView.setBackgroundResource(R.color.colorAccent);
             ((AppCompatTextView) holder.itemView).setTextColor(0xFFFFFFFF);
         }
