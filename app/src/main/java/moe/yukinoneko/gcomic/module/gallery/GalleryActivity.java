@@ -173,16 +173,10 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                 if (position == 0) {
                     galleryPager.setLocked(true);
                     seekBar.setEnabled(false);
-                    if (loadErrorLayout.isShown()) {
-                        loadErrorLayout.setVisibility(View.INVISIBLE);
-                    }
                     mHandler.postDelayed(mPreviousRunnable, 1000);
                 } else if (position == mPagerAdapter.getCount() - 1) {
                     galleryPager.setLocked(true);
                     seekBar.setEnabled(false);
-                    if (loadErrorLayout.isShown()) {
-                        loadErrorLayout.setVisibility(View.INVISIBLE);
-                    }
                     mHandler.postDelayed(mNextRunnable, 1000);
                 }
             }
