@@ -141,8 +141,8 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
     }
 
     @Override
-    public void showMessageSnackbar(String message) {
-        SnackbarUtils.showShort(mTaskList, message);
+    public void showMessageSnackbar(int resId) {
+        SnackbarUtils.showShort(mTaskList, resId);
     }
 
     @Override

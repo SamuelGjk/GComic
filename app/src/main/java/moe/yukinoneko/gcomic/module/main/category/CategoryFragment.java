@@ -88,8 +88,8 @@ public class CategoryFragment extends BaseFragment<CategoryPresenter> implements
     }
 
     @Override
-    public void showMessageSnackbar(String message) {
-        SnackbarUtils.showShort(mSwipeRefreshLayout, message);
+    public void showMessageSnackbar(int resId) {
+        SnackbarUtils.showShort(mSwipeRefreshLayout, resId);
     }
 
     @Override

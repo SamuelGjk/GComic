@@ -69,23 +69,10 @@ public class ComicDetailsPresenter extends BasePresenter<IComicDetailsView> {
                                               }, new Action1<Throwable>() {
                                                   @Override
                                                   public void call(Throwable throwable) {
-                                                      iView.showMessageSnackbar(throwable.getMessage());
+                                                      iView.loadError();
+//                                                      iView.showMessageSnackbar(throwable.getMessage());
                                                   }
                                               });
-//        Subscription subscription = GComicApi.getInstance()
-//                                             .fetchComicDetails(comicId)
-//                                             .observeOn(AndroidSchedulers.mainThread())
-//                                             .subscribe(new Action1<ComicData>() {
-//                                                 @Override
-//                                                 public void call(ComicData comicData) {
-//                                                     iView.updateComicDetailsContent(comicData);
-//                                                 }
-//                                             }, new Action1<Throwable>() {
-//                                                 @Override
-//                                                 public void call(Throwable throwable) {
-//                                                     iView.showMessageSnackbar(throwable.getMessage());
-//                                                 }
-//                                             });
         addSubscription(subscription);
     }
 

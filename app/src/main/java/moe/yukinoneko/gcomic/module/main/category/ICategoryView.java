@@ -26,7 +26,7 @@ import moe.yukinoneko.gcomic.base.IBaseView;
  * Created by SamuelGjk on 2016/4/18.
  */
 public interface ICategoryView extends IBaseView {
-    void showMessageSnackbar(String message);
+    void showMessageSnackbar(int resId);
 
     void setRefreshing(boolean refreshing);
 

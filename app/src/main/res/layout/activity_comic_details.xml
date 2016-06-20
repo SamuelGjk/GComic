@@ -55,81 +55,88 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/comic_details_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.github.mmin18.widget.FlexLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/comic_details_description"
+            <com.github.mmin18.widget.FlexLayout
+                android:id="@+id/comic_details_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="16sp" />
+                android:alpha="0"
+                android:padding="10dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                app:layout_top="prev.bottom + 10dp" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/comic_details_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="16sp" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/comic_author"
-                android:textColor="?android:textColorSecondary"
-                app:layout_top="prev.bottom + 10dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_top="prev.bottom + 10dp" />
 
-            <me.gujun.android.taggroup.TagGroup
-                android:id="@+id/author_tag_group"
-                style="@style/TagGroup.GComic"
-                app:layout_left="prev.right + 20dp"
-                app:layout_top="prev.top"
-                app:layout_width="parent.width - prev.right - 20dp" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comic_author"
+                    android:textColor="?android:textColorSecondary"
+                    app:layout_top="prev.bottom + 10dp" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/comic_type"
-                android:textColor="?android:textColorSecondary"
-                app:layout_right="prev.left - 20dp"
-                app:layout_top="prev.bottom + 10dp" />
+                <me.gujun.android.taggroup.TagGroup
+                    android:id="@+id/author_tag_group"
+                    style="@style/TagGroup.GComic"
+                    app:layout_left="prev.right + 20dp"
+                    app:layout_top="prev.top"
+                    app:layout_width="parent.width - prev.right - 20dp" />
 
-            <me.gujun.android.taggroup.TagGroup
-                android:id="@+id/type_tag_group"
-                style="@style/TagGroup.GComic"
-                app:layout_left="prev.right + 20dp"
-                app:layout_top="prev.top"
-                app:layout_width="parent.width - prev.right - 20dp" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comic_type"
+                    android:textColor="?android:textColorSecondary"
+                    app:layout_right="prev.left - 20dp"
+                    app:layout_top="prev.bottom + 10dp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/chapter_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:layoutManager="GridLayoutManager"
-                app:layout_top="prev.bottom + 15dp"
-                app:spanCount="4" />
-        </com.github.mmin18.widget.FlexLayout>
+                <me.gujun.android.taggroup.TagGroup
+                    android:id="@+id/type_tag_group"
+                    style="@style/TagGroup.GComic"
+                    app:layout_left="prev.right + 20dp"
+                    app:layout_top="prev.top"
+                    app:layout_width="parent.width - prev.right - 20dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/chapter_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:layoutManager="GridLayoutManager"
+                    app:layout_top="prev.bottom + 15dp"
+                    app:spanCount="4" />
+            </com.github.mmin18.widget.FlexLayout>
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/loading_progress_bar"
+                style="@style/Widget.MaterialProgressBar.ProgressBar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:indeterminate="true"
+                app:mpb_progressStyle="circular" />
+
+            <include layout="@layout/layout_load_error" />
+        </FrameLayout>
     </android.support.v4.widget.NestedScrollView>
-
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/loading_progress_bar"
-        style="@style/Widget.MaterialProgressBar.ProgressBar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
-        android:indeterminate="true"
-        app:mpb_progressStyle="circular" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/comic_details_fab"

@@ -35,6 +35,7 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.ToolBarActivity;
 import moe.yukinoneko.gcomic.data.ComicData;
@@ -61,6 +62,8 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     @BindView(R.id.seek_bar) AppCompatSeekBar seekBar;
     @BindView(R.id.cur_page) AppCompatTextView curPage;
     @BindView(R.id.total_pages) AppCompatTextView totalPages;
+    @BindView(R.id.load_error_layout) LinearLayout loadErrorLayout;
+    @BindView(R.id.load_error_tips) AppCompatTextView loadErrorTips;
 
     private View mDecorView;
 
@@ -82,6 +85,19 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
 
     private final int NOT_FULL_SCREEN_FLAG = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
     private final int FULL_SCREEN_FLAG = NOT_FULL_SCREEN_FLAG | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+    @OnClick(R.id.load_error_layout)
+    void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.load_error_layout:
+                loadErrorLayout.setVisibility(View.INVISIBLE);
+                fetchChapterContent(mChapters.get(mCurChapterPosition).chapterId);
+                break;
+
+            default:
+                break;
+        }
+    }
 
     @Override
     protected int provideContentViewId() {
@@ -115,7 +131,7 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                     galleryPager.setCurrentItem(1);
                     galleryPager.setLocked(false);
                     seekBar.setEnabled(true);
-                    showMessageSnackbar(getString(R.string.already_first));
+                    showMessageSnackbar(R.string.already_first);
                 }
             }
         };
@@ -130,11 +146,12 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                     galleryPager.setCurrentItem(mPagerAdapter.getCount() - 2);
                     galleryPager.setLocked(false);
                     seekBar.setEnabled(true);
-                    showMessageSnackbar(getString(R.string.already_last));
+                    showMessageSnackbar(R.string.already_last);
                 }
             }
         };
 
+        galleryPager.setLocked(true);
         galleryPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -156,10 +173,16 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                 if (position == 0) {
                     galleryPager.setLocked(true);
                     seekBar.setEnabled(false);
+                    if (loadErrorLayout.isShown()) {
+                        loadErrorLayout.setVisibility(View.INVISIBLE);
+                    }
                     mHandler.postDelayed(mPreviousRunnable, 1000);
                 } else if (position == mPagerAdapter.getCount() - 1) {
                     galleryPager.setLocked(true);
                     seekBar.setEnabled(false);
+                    if (loadErrorLayout.isShown()) {
+                        loadErrorLayout.setVisibility(View.INVISIBLE);
+                    }
                     mHandler.postDelayed(mNextRunnable, 1000);
                 }
             }
@@ -194,6 +217,9 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
             }
         });
 
+        loadErrorLayout.setBackgroundColor(0xFF444444);
+        loadErrorTips.setTextColor(0x80FFFFFF);
+
         Intent intent = getIntent();
 
         mComicId = intent.getIntExtra(GALLERY_CMOIC_ID, -1);
@@ -210,8 +236,8 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     }
 
     @Override
-    public void showMessageSnackbar(String message) {
-        SnackbarUtils.showShort(galleryPager, message);
+    public void showMessageSnackbar(int resId) {
+        SnackbarUtils.showShort(galleryPager, resId);
     }
 
     @Override
@@ -233,11 +259,16 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
     }
 
     @Override
-    public void fetchFailure() {
+    public void loadError() {
         galleryPager.setCurrentItem(intCurPage < 1 ? 1 : intCurPage);
         mCurChapterPosition = mLastChapterPosition;
-        galleryPager.setLocked(false);
-        seekBar.setEnabled(true);
+
+        if (mPagerAdapter.getCount() == 3) {
+            loadErrorLayout.setVisibility(View.VISIBLE);
+        } else {
+            galleryPager.setLocked(false);
+            seekBar.setEnabled(true);
+        }
     }
 
     private void fetchChapterContent(int chapterId) {

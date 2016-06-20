@@ -90,6 +90,7 @@ public class DownloadBottomSheetDialogView implements View.OnClickListener {
         buttonDownloadAll.setOnClickListener(this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.download_chapter_chooser);
+        recyclerView.setHasFixedSize(true);
         mAdapter = new ChapterAdapter();
         recyclerView.setAdapter(mAdapter);
 

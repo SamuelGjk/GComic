@@ -102,8 +102,8 @@ public class RankFragment extends BaseFragment<RankPresenter> implements IRankVi
     }
 
     @Override
-    public void showMessageSnackbar(String message) {
-        SnackbarUtils.showShort(mSwipeRefreshLayout, message);
+    public void showMessageSnackbar(int resId) {
+        SnackbarUtils.showShort(mSwipeRefreshLayout, resId);
     }
 
     @Override

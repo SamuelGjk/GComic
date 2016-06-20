@@ -45,6 +45,9 @@
     <string name="download">下载</string>
     <string name="select_the_desired_download_chapter">选择要下载的章节</string>
 
+    <string name="message_load_error">加载失败</string>
+    <string name="tips_load_error">加载失败，点我重试</string>
+
     <!-- about -->
     <string name="about">关于</string>
     <string name="app_version">Version %1$s</string>

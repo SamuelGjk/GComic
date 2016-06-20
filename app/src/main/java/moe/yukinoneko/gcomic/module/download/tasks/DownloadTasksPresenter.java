@@ -22,6 +22,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.data.ComicData;
 import moe.yukinoneko.gcomic.database.GComicDB;
@@ -72,7 +73,7 @@ public class DownloadTasksPresenter extends BasePresenter<IDownloadTasksView> {
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.showMessageSnackbar(R.string.message_load_error);
                                                  }
                                              });
         addSubscription(subscription);

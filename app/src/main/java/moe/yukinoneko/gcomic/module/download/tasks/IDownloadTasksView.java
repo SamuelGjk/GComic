@@ -27,7 +27,7 @@ import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
  * Created by SamuelGjk on 2016/5/13.
  */
 public interface IDownloadTasksView extends IBaseView {
-    void showMessageSnackbar(String message);
+    void showMessageSnackbar(int resId);
 
     void updateDownloadTasksList(List<DownloadTaskModel> tasks);
 

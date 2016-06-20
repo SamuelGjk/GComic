@@ -21,9 +21,10 @@ import android.content.Context;
 
 import java.util.List;
 
+import moe.yukinoneko.gcomic.R;
+import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.data.ClassifyData;
 import moe.yukinoneko.gcomic.network.GComicApi;
-import moe.yukinoneko.gcomic.base.BasePresenter;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -50,7 +51,7 @@ public class ClassifyPresenter extends BasePresenter<IClassifyView> {
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.showMessageSnackbar(R.string.message_load_error);
                                                      iView.setRefreshing(false);
                                                  }
                                              });

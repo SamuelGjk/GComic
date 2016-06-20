@@ -27,7 +27,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -35,8 +34,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.github.mmin18.widget.FlexLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +75,9 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     @BindView(R.id.comic_details_collapsing_toolbar) CollapsingToolbarLayout comicDetailsCollapsingToolbar;
     @BindView(R.id.chapter_list) RecyclerView chapterList;
     @BindView(R.id.comic_details_coordinatorLayout) CoordinatorLayout comicDetailsCoordinatorLayout;
-    @BindView(R.id.comic_details_content) NestedScrollView comicDetailsContent;
+    @BindView(R.id.comic_details_content) FlexLayout comicDetailsContent;
     @BindView(R.id.loading_progress_bar) MaterialProgressBar loadingProgressBar;
+    @BindView(R.id.load_error_layout) LinearLayout loadErrorLayout;
 
     private Menu menu;
 
@@ -93,7 +95,7 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     private String comicCover;
     private String firstLetter;
 
-    @OnClick({ R.id.comic_details_description, R.id.comic_details_fab })
+    @OnClick({ R.id.comic_details_description, R.id.comic_details_fab, R.id.load_error_layout })
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.comic_details_description:
@@ -103,6 +105,11 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
                 if (mAdapter.getItemCount() > 0) {
                     toGallery(mAdapter.getHistoryChapterPosition(), mAdapter.getHistoryBrowsePosition());
                 }
+                break;
+            case R.id.load_error_layout:
+                loadErrorLayout.setVisibility(View.INVISIBLE);
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                presenter.fetchComicDetails(comicId);
                 break;
 
             default:
@@ -265,10 +272,17 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
         menu.findItem(R.id.menu_favorite).setIcon(isFavorite ? R.mipmap.ic_favorite_white : R.mipmap.ic_favorite_border_white);
     }
 
+    // @formatter:on
     @Override
     public void updateReadHistory(ReadHistoryModel history) {
         mAdapter.setReadHistory(history);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadError() {
+        loadingProgressBar.setVisibility(View.INVISIBLE);
+        loadErrorLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -21,6 +21,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.data.SearchData;
 import moe.yukinoneko.gcomic.network.GComicApi;
@@ -50,7 +51,7 @@ public class SearchPresenter extends BasePresenter<ISearchView> {
                                              }, new Action1<Throwable>() {
                                                  @Override
                                                  public void call(Throwable throwable) {
-                                                     iView.showMessageSnackbar(throwable.getMessage());
+                                                     iView.showMessageSnackbar(R.string.message_load_error);
                                                      iView.setRefreshing(false);
                                                  }
                                              });

@@ -17,9 +17,7 @@
 
 package moe.yukinoneko.gcomic.module.main;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +33,6 @@ import android.support.v7.widget.ActionMenuView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.transition.Explode;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -108,7 +105,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
 
     @Override
     public void init() {
-        setupWindowAnimations();
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -245,13 +241,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     protected void onDestroy() {
         DownloadTasksManager.getInstance(this).onDestroy();
         super.onDestroy();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setupWindowAnimations() {
-        Explode slideTransition = new Explode();
-        getWindow().setReenterTransition(slideTransition);
-        getWindow().setExitTransition(slideTransition);
     }
 
     private void showClearButton(boolean show) {

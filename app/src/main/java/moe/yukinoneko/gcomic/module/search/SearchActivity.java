@@ -119,8 +119,8 @@ public class SearchActivity extends ToolBarActivity<SearchPresenter> implements 
     }
 
     @Override
-    public void showMessageSnackbar(String message) {
-        SnackbarUtils.showShort(mSwipeRefreshLayout, message);
+    public void showMessageSnackbar(int resId) {
+        SnackbarUtils.showShort(mSwipeRefreshLayout, resId);
     }
 
     @Override

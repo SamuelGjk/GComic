@@ -32,4 +32,6 @@ public interface IComicDetailsView extends IBaseView {
     void updateFavoriteMenu(boolean isFavorite);
 
     void updateReadHistory(ReadHistoryModel history);
+
+    void loadError();
 }
