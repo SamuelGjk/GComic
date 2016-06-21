@@ -256,10 +256,8 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
 
                           loadingProgressBar.setVisibility(View.INVISIBLE);
 
+                          comicDetailsContent.setVisibility(View.VISIBLE);
                           mAdapter.replaceAll(chapters);
-                          ViewCompat.animate(comicDetailsContent)
-                                    .alpha(1.0f)
-                                    .start();
                       }
                   })
                   .start();

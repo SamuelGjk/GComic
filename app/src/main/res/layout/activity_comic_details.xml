@@ -67,8 +67,8 @@
                 android:id="@+id/comic_details_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:alpha="0"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="invisible">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/comic_details_description"
