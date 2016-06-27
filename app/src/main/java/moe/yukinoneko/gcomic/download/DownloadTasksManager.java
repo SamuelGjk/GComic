@@ -102,7 +102,7 @@ public class DownloadTasksManager {
     }
 
     public Observable<ArrayList<DownloadTaskModel>> getTasksByComicId(String[] values) {
-        return GComicDB.getInstance(context).queryByWhereAndDesc(DownloadTaskModel.class, "comicId", values, "chapterId");
+        return GComicDB.getInstance(context).queryByWhereAsc(DownloadTaskModel.class, "comicId", values, "chapterId");
     }
 
     public void bindService() {

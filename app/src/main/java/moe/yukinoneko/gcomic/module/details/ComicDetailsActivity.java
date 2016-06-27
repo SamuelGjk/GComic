@@ -224,9 +224,6 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
     public void updateComicDetailsContent(ComicData comicData) {
         firstLetter = comicData.firstLetter;
 
-        mBottomSheetDialogView = new DownloadBottomSheetDialogView(this, comicId, comicTitle, comicCover, firstLetter, mAdapter.getData());
-        mBottomSheetDialogView.setOnBottomSheetDismissListener(this);
-
         comicDetailsDescription.setText(comicData.description);
         mDescriptionDialog.setMessage(comicData.description);
 
@@ -258,6 +255,9 @@ public class ComicDetailsActivity extends ToolBarActivity<ComicDetailsPresenter>
 
                           comicDetailsContent.setVisibility(View.VISIBLE);
                           mAdapter.replaceAll(chapters);
+
+                          mBottomSheetDialogView = new DownloadBottomSheetDialogView(ComicDetailsActivity.this, ComicDetailsActivity.this.comicId, ComicDetailsActivity.this.comicTitle, ComicDetailsActivity.this.comicCover, ComicDetailsActivity.this.firstLetter, mAdapter.getData());
+                          mBottomSheetDialogView.setOnBottomSheetDismissListener(ComicDetailsActivity.this);
                       }
                   })
                   .start();

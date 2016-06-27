@@ -137,11 +137,11 @@ public class GComicDB {
     /**
      * 查询 某字段 等于 value 的值并按照指定列的值升序排列
      */
-    public <T> Observable<ArrayList<T>> queryByWhereAndDesc(final Class<T> cls, final String where, final String[] value, final String column) {
+    public <T> Observable<ArrayList<T>> queryByWhereAsc(final Class<T> cls, final String where, final String[] value, final String column) {
         return Observable.defer(new Func0<Observable<ArrayList<T>>>() {
             @Override
             public Observable<ArrayList<T>> call() {
-                return Observable.just(liteOrm.query(new QueryBuilder<>(cls).where(where + "=?", value).appendOrderDescBy(column)));
+                return Observable.just(liteOrm.query(new QueryBuilder<>(cls).where(where + "=?", value).appendOrderAscBy(column)));
             }
         }).subscribeOn(Schedulers.io());
     }
