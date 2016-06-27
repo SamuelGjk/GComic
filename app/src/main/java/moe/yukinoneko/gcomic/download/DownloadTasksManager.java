@@ -174,7 +174,7 @@ public class DownloadTasksManager {
         }
 
         int status = getStatus(model.id);
-        if (!(status == FileDownloadStatus.paused || status == FileDownloadStatus.error || status == FileDownloadStatus.INVALID_STATUS)) {
+        if (!(status == FileDownloadStatus.paused || status == FileDownloadStatus.error || status == FileDownloadStatus.INVALID_STATUS || (isDownloaded(status) && !isExist(model.path)))) {
             return;
         }
 

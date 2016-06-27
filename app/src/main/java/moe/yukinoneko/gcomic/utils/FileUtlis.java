@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -43,9 +46,26 @@ public class FileUtlis {
                 List<byte[]> result = new ArrayList<>();
                 try {
                     ZipFile zf = new ZipFile(path);
+                    Enumeration<? extends ZipEntry> entries = zf.entries();
+                    List<String> names = new ArrayList<>();
+                    while (entries.hasMoreElements()) {
+                        names.add(entries.nextElement().getName());
+                    }
+                    Collections.sort(names, new Comparator<String>() {
+                        @Override
+                        public int compare(String lhs, String rhs) {
+                            if (lhs.length() == rhs.length()) {
+                                return lhs.compareTo(rhs);
+                            } else if (lhs.length() < rhs.length()) {
+                                return -1;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    });
                     ZipEntry ze;
-                    for (int i = 0; i < zf.size(); i++) {
-                        ze = zf.getEntry(i + FILE_SUFFIX);
+                    for (String name : names) {
+                        ze = zf.getEntry(name);
                         long size = ze.getSize();
                         if (size > 0) {
                             InputStream zeis = zf.getInputStream(ze);

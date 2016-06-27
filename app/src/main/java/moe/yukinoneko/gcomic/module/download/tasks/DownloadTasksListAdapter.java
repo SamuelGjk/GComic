@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -231,7 +232,8 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
                                 chapter.chapterTitle = task.chapterTitle;
                                 chapters.add(chapter);
                             }
-                            chapterPosition = position;
+                            Collections.reverse(chapters);
+                            chapterPosition = mData.size() - position - 1;
                         }
                         Intent intent = new Intent(mContext, GalleryActivity.class);
                         intent.putExtra(GalleryActivity.GALLERY_CMOIC_ID, mData.get(0).comicId);
