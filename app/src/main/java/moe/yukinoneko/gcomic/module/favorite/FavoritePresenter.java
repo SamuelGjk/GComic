@@ -39,7 +39,7 @@ public class FavoritePresenter extends BasePresenter<IFavoriteView> {
 
     void fetchFavoriteData() {
         Subscription subscription = GComicDB.getInstance(mContext)
-                                            .queryAll(FavoriteModel.class)
+                                            .queryAllDesc(FavoriteModel.class, "favoriteTime")
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(new Action1<ArrayList<FavoriteModel>>() {
                                                 @Override

@@ -20,6 +20,7 @@ package moe.yukinoneko.gcomic.module.details;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.data.ComicData;
@@ -78,7 +79,7 @@ public class ComicDetailsPresenter extends BasePresenter<IComicDetailsView> {
 
     void favoriteComic(int comicId, String comicTitle, String comicAuthors, String comicCover) {
         Subscription subscription = GComicDB.getInstance(mContext)
-                                            .insert(new FavoriteModel(comicId, comicTitle, comicAuthors, comicCover))
+                                            .insert(new FavoriteModel(comicId, comicTitle, comicAuthors, comicCover, new Date().getTime()))
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(new Action1<Long>() {
                                                 @Override

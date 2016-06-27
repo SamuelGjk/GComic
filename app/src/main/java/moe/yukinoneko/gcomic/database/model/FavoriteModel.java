@@ -36,10 +36,13 @@ public class FavoriteModel {
 
     public String comicCover;
 
-    public FavoriteModel(int comicId, String comicTitle, String comicAuthors, String comicCover) {
+    public long favoriteTime;
+
+    public FavoriteModel(int comicId, String comicTitle, String comicAuthors, String comicCover, long favoriteTime) {
         this.comicId = comicId;
         this.comicTitle = comicTitle;
         this.comicAuthors = comicAuthors;
         this.comicCover = comicCover;
+        this.favoriteTime = favoriteTime;
     }
 }

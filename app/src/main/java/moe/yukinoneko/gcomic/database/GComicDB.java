@@ -102,6 +102,18 @@ public class GComicDB {
     }
 
     /**
+     * 查询所有并按照指定列的值降序排列
+     */
+    public <T> Observable<ArrayList<T>> queryAllDesc(final Class<T> cls, final String column) {
+        return Observable.defer(new Func0<Observable<ArrayList<T>>>() {
+            @Override
+            public Observable<ArrayList<T>> call() {
+                return Observable.just(liteOrm.query(new QueryBuilder<>(cls).appendOrderDescBy(column)));
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    /**
      * 查询 指定字段 的值并去除重复
      *
      * @param cls   要查询的对象类型
