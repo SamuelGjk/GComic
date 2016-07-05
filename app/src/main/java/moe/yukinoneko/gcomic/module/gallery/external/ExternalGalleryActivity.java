@@ -116,6 +116,8 @@ public class ExternalGalleryActivity extends ToolBarActivity<ExternalGalleryPres
             }
         });
 
+        curPage.setText("1");
+
         String path = FileUtlis.getPath(this, getIntent().getData());
         mToolbar.setTitle(path != null ? path.substring(path.lastIndexOf("/") + 1) : "No Title");
         presenter.fetchPicturesFromDisk(path);
