@@ -59,6 +59,7 @@
     <string name="credit_list">drakeet(妹纸&amp;gank.io)\nPanl(Gank.io)\nliaohuqiu(android-support-23.2-sample)\nfython(NHentai-android)</string>
     <string name="open_source_libs">使用的开源库</string>
     <string name="open_source_libs_list">LiteOrm\nRatioImageView.java\nDividerItemDecoration.java\ncom.android.support:*\nio.reactivex:rxjava\nio.reactivex:rxandroid\ncom.squareup.okhttp3:okhttp\ncom.squareup.retrofit2:*\ncom.github.bumptech.glide:*\ncom.jakewharton:butterknife\ncom.github.renaudcerrato:FloatingSearchView\ncom.github.mmin18:flexlayout\ncom.amulyakhare:com.amulyakhare.textdrawable\nme.gujun.android.taggroup:library\ncom.github.chrisbanes.photoview:library\ncom.liulishuo.filedownloader:library\nme.zhanghai.android.materialprogressbar:library</string>
+    <string name="about_cover_Illust">Illust by -Ask--</string>
 
     <!-- download -->
     <string name="pause">暂停</string>
@@ -72,6 +73,7 @@
 
     <string name="select_all">全选</string>
     <string name="unselect_all">取消选择</string>
+    <string name="delete">删除</string>
 
     <string name="download_tasks_status_loading">状态: 加载中…</string>
     <string name="download_tasks_status_pending">状态: 队列中</string>
@@ -82,6 +84,6 @@
     <string name="download_tasks_status_paused">状态: 暂停</string>
     <string name="download_tasks_status_completed">状态: 下载完成</string>
     <string name="download_tasks_status_not_downloaded">状态: 未下载</string>
-    <string name="delete">删除</string>
-    <string name="about_cover_Illust">Illust by -Ask--</string>
+
+    <string name="continue_reading">续看</string>
 </resources>

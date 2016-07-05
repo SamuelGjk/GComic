@@ -42,6 +42,19 @@
         app:layout_width="parent.width - next.width"
         app:mpb_progressStyle="horizontal" />
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_continue_reading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/continue_reading"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_left="prev.left"
+        app:layout_top="prev.bottom" />
+
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/btn_task_action"
         android:layout_width="wrap_content"
@@ -50,7 +63,7 @@
         android:src="@mipmap/ic_pause_white"
         android:tint="@color/action_button_color"
         app:layout_bottom="task_progress_bar.bottom"
-        app:layout_left="prev.right"
+        app:layout_left="task_progress_bar.right"
         app:layout_top="task_name.top" />
 
     <android.support.v7.widget.AppCompatTextView

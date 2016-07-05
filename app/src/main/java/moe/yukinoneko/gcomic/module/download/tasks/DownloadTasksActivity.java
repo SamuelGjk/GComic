@@ -17,6 +17,7 @@
 
 package moe.yukinoneko.gcomic.module.download.tasks;
 
+import android.content.Intent;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.base.ToolBarActivity;
 import moe.yukinoneko.gcomic.data.ComicData;
 import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 import moe.yukinoneko.gcomic.download.DownloadTasksManager;
 import moe.yukinoneko.gcomic.utils.SnackbarUtils;
 import moe.yukinoneko.gcomic.widget.DividerItemDecoration;
@@ -48,6 +50,8 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
     @BindView(R.id.download_task_list) RecyclerView mTaskList;
 
     private DownloadTasksListAdapter mAdapter;
+
+    private int mComicId;
 
     private FileDownloadConnectListener fileDownloadConnectListener = new FileDownloadConnectListener() {
 
@@ -88,7 +92,7 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
 
     @Override
     public void init() {
-        int comicId = getIntent().getIntExtra(DOWMLOADED_COMIC_ID, -1);
+        mComicId = getIntent().getIntExtra(DOWMLOADED_COMIC_ID, -1);
         String comicTitle = getIntent().getStringExtra(DOWMLOADED_COMIC_TITLE);
 
         mToolbar.setTitle(getString(R.string.download_tasks_label, comicTitle));
@@ -110,8 +114,16 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
 
         DownloadTasksManager.getInstance(this).addServiceConnectListener(fileDownloadConnectListener);
 
-        presenter.fetchDownloadTasks(comicId);
-        presenter.fetchComicFullChapters(comicId);
+        presenter.fetchReadHistory(mComicId);
+        presenter.fetchDownloadTasks(mComicId);
+        presenter.fetchComicFullChapters(mComicId);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        presenter.fetchReadHistory(mComicId);
     }
 
     @Override
@@ -153,6 +165,12 @@ public class DownloadTasksActivity extends ToolBarActivity<DownloadTasksPresente
     @Override
     public void setComicFullChapters(List<ComicData.ChaptersBean.ChapterBean> chapters) {
         mAdapter.setFullChapters(chapters);
+    }
+
+    @Override
+    public void updateReadHistory(ReadHistoryModel history) {
+        mAdapter.setReadHistory(history);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

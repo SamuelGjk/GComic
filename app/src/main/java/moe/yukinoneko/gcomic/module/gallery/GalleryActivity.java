@@ -307,7 +307,7 @@ public class GalleryActivity extends ToolBarActivity<GalleryPresenter> implement
                               return;
                           }
 
-                          view.setVisibility(View.GONE);
+                          view.setVisibility(View.INVISIBLE);
                       }
                   })
                   .start();

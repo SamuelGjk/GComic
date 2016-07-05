@@ -17,6 +17,7 @@
 
 package moe.yukinoneko.gcomic.module.download.tasks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -42,6 +43,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import moe.yukinoneko.gcomic.R;
 import moe.yukinoneko.gcomic.data.ComicData;
 import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 import moe.yukinoneko.gcomic.download.DownloadTasksManager;
 import moe.yukinoneko.gcomic.module.gallery.GalleryActivity;
 
@@ -58,6 +60,8 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
     private List<ComicData.ChaptersBean.ChapterBean> mFullChapters;
 
     private Set<DownloadTaskModel> mSelectedTasks;
+
+    private ReadHistoryModel mReadHistory;
 
     private OnItemLongClickListener onItemLongClickListener;
 
@@ -152,6 +156,12 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
         } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.download_task_background_color));
         }
+
+        if (mReadHistory != null && holder.taskModel.chapterId == mReadHistory.chapterId) {
+            holder.textContinueReading.setVisibility(View.VISIBLE);
+        } else {
+            holder.textContinueReading.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -173,12 +183,17 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
         this.mFullChapters = chapters;
     }
 
+    void setReadHistory(ReadHistoryModel history) {
+        this.mReadHistory = history;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, DownloadTasksManager.ITaskViewHolder {
 
         @BindView(R.id.task_name) AppCompatTextView taskName;
         @BindView(R.id.task_progress_bar) MaterialProgressBar taskPb;
         @BindView(R.id.btn_task_action) AppCompatImageButton taskActionBtn;
         @BindView(R.id.task_status) AppCompatTextView taskStatus;
+        @BindView(R.id.text_continue_reading) AppCompatTextView textContinueReading;
 
         DownloadTaskModel taskModel;
 
@@ -240,7 +255,10 @@ public class DownloadTasksListAdapter extends RecyclerView.Adapter<DownloadTasks
                         intent.putExtra(GalleryActivity.GALLERY_CHAPTER_POSITION, chapterPosition);
                         intent.putExtra(GalleryActivity.GALLERY_CMOIC_FIRST_LETTER, mData.get(0).firstLetter);
                         intent.putParcelableArrayListExtra(GalleryActivity.GALLERY_CHAPTER_LIST, chapters);
-                        mContext.startActivity(intent);
+                        if (textContinueReading.isShown()) {
+                            intent.putExtra(GalleryActivity.GALLERY_BROWSE_POSITION, mReadHistory.browsePosition);
+                        }
+                        ((Activity) mContext).startActivityForResult(intent, 10000);
                     }
                     break;
             }

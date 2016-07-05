@@ -15,24 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package moe.yukinoneko.gcomic.module.download.tasks;
+package moe.yukinoneko.gcomic.module.gallery.external;
 
 import java.util.List;
 
 import moe.yukinoneko.gcomic.base.IBaseView;
-import moe.yukinoneko.gcomic.data.ComicData;
-import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
-import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 
 /**
- * Created by SamuelGjk on 2016/5/13.
+ * Created by SamuelGjk on 2016/4/20.
  */
-public interface IDownloadTasksView extends IBaseView {
-    void showMessageSnackbar(int resId);
-
-    void updateDownloadTasksList(List<DownloadTaskModel> tasks);
-
-    void setComicFullChapters(List<ComicData.ChaptersBean.ChapterBean> chapters);
-
-    void updateReadHistory(ReadHistoryModel history);
+public interface IExternalGalleryView extends IBaseView {
+    void updatePagerContent(List<byte[]> bytes);
 }

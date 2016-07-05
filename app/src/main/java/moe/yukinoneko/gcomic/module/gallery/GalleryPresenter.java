@@ -18,7 +18,6 @@
 package moe.yukinoneko.gcomic.module.gallery;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 
@@ -44,7 +43,6 @@ public class GalleryPresenter extends BasePresenter<IGalleryView> {
     }
 
     void fetchChapterDetails(int comicId, int chapterId) {
-        Log.d(TAG, "NETWORK");
         Subscription subscription = GComicApi.getInstance()
                                              .fetchChapterDetails(comicId, chapterId)
                                              .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +62,6 @@ public class GalleryPresenter extends BasePresenter<IGalleryView> {
     }
 
     void fetchPicturesFromDisk(String path) {
-        Log.d(TAG, "DISK");
         Subscription subscription = FileUtlis.readFileContent(path)
                                              .observeOn(AndroidSchedulers.mainThread())
                                              .subscribe(new Action1<List<byte[]>>() {

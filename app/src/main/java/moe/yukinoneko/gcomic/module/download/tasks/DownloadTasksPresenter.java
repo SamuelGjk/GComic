@@ -27,6 +27,7 @@ import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.data.ComicData;
 import moe.yukinoneko.gcomic.database.GComicDB;
 import moe.yukinoneko.gcomic.database.model.DownloadTaskModel;
+import moe.yukinoneko.gcomic.database.model.ReadHistoryModel;
 import moe.yukinoneko.gcomic.download.DownloadTasksManager;
 import moe.yukinoneko.gcomic.network.GComicApi;
 import moe.yukinoneko.gcomic.utils.FileUtlis;
@@ -54,6 +55,21 @@ public class DownloadTasksPresenter extends BasePresenter<IDownloadTasksView> {
                                                                 iView.updateDownloadTasksList(downloadTaskModels);
                                                             }
                                                         });
+        addSubscription(subscription);
+    }
+
+    void fetchReadHistory(int comicId) {
+        Subscription subscription = GComicDB.getInstance(mContext)
+                                            .queryByWhere(ReadHistoryModel.class, "comicId", new String[]{ String.valueOf(comicId) })
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(new Action1<ArrayList<ReadHistoryModel>>() {
+                                                @Override
+                                                public void call(ArrayList<ReadHistoryModel> readHistoryModels) {
+                                                    if (!readHistoryModels.isEmpty()) {
+                                                        iView.updateReadHistory(readHistoryModels.get(0));
+                                                    }
+                                                }
+                                            });
         addSubscription(subscription);
     }
 

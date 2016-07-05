@@ -19,6 +19,7 @@ package moe.yukinoneko.gcomic.module.gallery;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -34,6 +35,7 @@ import moe.yukinoneko.gcomic.base.BaseFragment;
 import moe.yukinoneko.gcomic.base.BasePresenter;
 import moe.yukinoneko.gcomic.base.IBaseView;
 import moe.yukinoneko.gcomic.glide.GlideUrlFactory;
+import moe.yukinoneko.gcomic.module.gallery.external.ExternalGalleryActivity;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -83,7 +85,12 @@ public class PictureFragment extends BaseFragment<PictureFragment.PicturePresent
         pvPicture.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
-                ((GalleryActivity) getActivity()).toggleSystemUi();
+                FragmentActivity activity = getActivity();
+                if (activity instanceof GalleryActivity) {
+                    ((GalleryActivity) getActivity()).toggleSystemUi();
+                } else {
+                    ((ExternalGalleryActivity) getActivity()).toggleSystemUi();
+                }
             }
         });
 
