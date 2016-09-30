@@ -8,4 +8,5 @@
 /app/src/main/java/moe/yukinoneko/gcomic/network/GComicApi.java
 
 /.idea
+/projectFilesBackup
 *.apk

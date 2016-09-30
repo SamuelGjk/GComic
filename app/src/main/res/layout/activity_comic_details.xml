@@ -16,11 +16,11 @@
   -->
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/comic_details_coordinatorLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@+id/comic_details_coordinatorLayout"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/comic_details_appbar_layout"
@@ -96,8 +96,8 @@
                     android:id="@+id/author_tag_group"
                     style="@style/TagGroup.GComic"
                     app:layout_left="prev.right + 20dp"
-                    app:layout_top="prev.top"
-                    app:layout_width="parent.width - prev.right - 20dp" />
+                    app:layout_right="100%"
+                    app:layout_top="prev.top" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -111,8 +111,8 @@
                     android:id="@+id/type_tag_group"
                     style="@style/TagGroup.GComic"
                     app:layout_left="prev.right + 20dp"
-                    app:layout_top="prev.top"
-                    app:layout_width="parent.width - prev.right - 20dp" />
+                    app:layout_right="100%"
+                    app:layout_top="prev.top" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/chapter_list"
